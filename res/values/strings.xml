@@ -4,4 +4,6 @@
 	
 	<!-- Activity Login -->
 	<string name="login_ui_help">Ask for your friend\'s opinion in a very simple way!</string>
+	<string name="login_ui_logo">Youchuzz logo</string>
+	<string name="login_ui_facebook">Login with Facebook</string>
 </resources>
