@@ -1,4 +1,4 @@
-package fr.youchuzz;
+package fr.youchuzz.core;
 
 import java.util.HashMap;
 import java.util.Map;

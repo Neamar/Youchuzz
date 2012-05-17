@@ -2,7 +2,10 @@ package fr.youchuzz;
 
 import com.androidquery.AQuery;
 
+import fr.youchuzz.core.API;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +26,10 @@ public class LoginActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Log.w("youchuzz", "Login!");
+				Log.i("youchuzz", "Login!");
+				
+				Intent myIntent = new Intent(v.getContext(), HomeActivity.class);
+				startActivity(myIntent);
 			}
 		});
 	}
