@@ -10,5 +10,6 @@
 	<!-- Activity Home -->
 	<string name="home_ui_item_title">{{ title }}</string>
 	<string name="home_ui_item_desc">{{ desc }}</string>
+	<string name="home_ui_item_img">Image</string>
 	
 </resources>

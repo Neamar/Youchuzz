@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.ListView;
 import fr.youchuzz.core.Chuzz;
 import fr.youchuzz.core.ChuzzAdapter;
-import fr.youchuzz.core.Order;
 
 public class HomeActivity extends Activity {
 	/** Called when the activity is first created. */
