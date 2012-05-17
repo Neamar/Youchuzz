@@ -26,7 +26,6 @@ public class ChuzzAdapter extends ArrayAdapter<Chuzz> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		
-		
 		if (v == null) {
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.item_home_chuzz, null);

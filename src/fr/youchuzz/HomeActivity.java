@@ -2,8 +2,12 @@ package fr.youchuzz;
 
 import java.util.ArrayList;
 
+import com.androidquery.AQuery;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import fr.youchuzz.core.Chuzz;
 import fr.youchuzz.core.ChuzzAdapter;
@@ -31,5 +35,16 @@ public class HomeActivity extends Activity {
 		ListView lv = (ListView) findViewById(R.id.home_chuzzs);
 		ChuzzAdapter m_adapter = new ChuzzAdapter(this, R.layout.item_home_chuzz, m_chuzzs);
 		lv.setAdapter(m_adapter);
+		
+		AQuery aq = new AQuery(this);
+		
+		aq.id(R.id.home_create).clicked(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent myIntent = new Intent(v.getContext(), CreateContentActivity.class);
+				startActivity(myIntent);
+			}
+		});
 	}
 }
