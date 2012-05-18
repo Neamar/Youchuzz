@@ -2,17 +2,21 @@ package fr.youchuzz;
 
 import java.util.ArrayList;
 
-import com.androidquery.AQuery;
+import org.json.JSONArray;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+
+import fr.youchuzz.core.API;
 import fr.youchuzz.core.Chuzz;
 import fr.youchuzz.core.ChuzzAdapter;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends BaseActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -20,6 +24,24 @@ public class HomeActivity extends Activity {
 		
 		setContentView(R.layout.activity_home);
 		
+		aq = new AQuery(this);
+		
+		aq.id(R.id.home_loading).visible();
+		aq.id(R.id.home_chuzzs).invisible();
+		aq.id(R.id.home_create).clicked(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent myIntent = new Intent(v.getContext(), CreateContentActivity.class);
+				startActivity(myIntent);
+			}
+		});
+		
+		API.getInstance().getChuzzs(this, "onChuzzsLoaded");
+	}
+	
+	public void onChuzzsLoaded(String url, JSONArray json, AjaxStatus status)
+	{
 		ArrayList<Chuzz> m_chuzzs = new ArrayList<Chuzz>();
 		Chuzz c1 = new Chuzz();
 		c1.title = "Rouge à lèvres";
@@ -36,15 +58,7 @@ public class HomeActivity extends Activity {
 		ChuzzAdapter m_adapter = new ChuzzAdapter(this, R.layout.item_home_chuzz, m_chuzzs);
 		lv.setAdapter(m_adapter);
 		
-		AQuery aq = new AQuery(this);
-		
-		aq.id(R.id.home_create).clicked(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent myIntent = new Intent(v.getContext(), CreateContentActivity.class);
-				startActivity(myIntent);
-			}
-		});
+		aq.id(R.id.home_loading).invisible();
+		aq.id(R.id.home_chuzzs).visible();
 	}
 }

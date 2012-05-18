@@ -51,7 +51,7 @@ public class LoginActivity extends BaseActivity {
 		
 		if(facebook.isSessionValid())
 		{
-			youchuzzLogin(facebook.getAccessToken());
+			onFacebookLogged(facebook.getAccessToken());
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class LoginActivity extends BaseActivity {
 	 * Click on facebook login : lauch Facebook auth
 	 * @param v
 	 */
-	public void onFacebookButtonClick(View v)
+	public void onFacebookButtonClicked(View v)
 	{
 		facebook.authorize(this, new DialogListener() {
 			@Override
@@ -79,7 +79,7 @@ public class LoginActivity extends BaseActivity {
 				editor.commit();
 
 				// Log into youchuzz
-				youchuzzLogin(facebook.getAccessToken());
+				onFacebookLogged(facebook.getAccessToken());
 			}
 			
 			@Override
@@ -105,7 +105,7 @@ public class LoginActivity extends BaseActivity {
 	 * 
 	 * @param facebookToken
 	 */
-	public void youchuzzLogin(String facebookToken)
+	public void onFacebookLogged(String facebookToken)
 	{
 		aq.id(R.id.login_facebook).invisible();
 		aq.id(R.id.login_step2).visible();
@@ -125,7 +125,15 @@ public class LoginActivity extends BaseActivity {
 	public void youchuzzLogged(String url, JSONObject json, AjaxStatus status) {
 		if(json == null)
 		{
-			Log.e("yc", "Error while logging in." + status.getCode());
+			Log.e("yc", "Error while logging in : err. " + status.getCode());
+			Toast.makeText(getBaseContext(), "Error while logging in : err. " + status.getCode(), Toast.LENGTH_LONG).show();
+			
+			SharedPreferences.Editor editor = mPrefs.edit();
+			editor.putString("access_token", "(old)");
+			editor.putLong("access_expires", -1);
+			editor.commit();
+			
+			finish();
 		}
 		else
 		{

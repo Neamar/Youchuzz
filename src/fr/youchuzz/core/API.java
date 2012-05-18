@@ -1,15 +1,12 @@
 package fr.youchuzz.core;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.util.Log;
 
 import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
 
 /**
  * Communication avec l'API Youchuzz
@@ -83,13 +80,28 @@ public class API {
 	
 	/**
 	 * Get back session id for youchuzz.
+	 * 
 	 * @param facebookToken
-	 * @return youchuzzToken
+	 * @param handler
+	 * @param callback as requested by AQuery
 	 */
 	public void login(String facebookToken, Object handler, String callback)
 	{
 		String url = baseUrl + "/user/login_fb?fb_token=" + facebookToken;
 
 		aq.ajax(url, JSONObject.class, handler, callback);
+	}
+	
+	/**
+	 * List all chuzz for selected user
+	 * 
+	 * @param handler
+	 * @param callback as requested by AQuery
+	 */
+	public void getChuzzs(Object handler, String callback)
+	{
+		String url = baseUrl + "/user/chuzzs?token=" + nextToken;
+
+		aq.ajax(url, JSONArray.class, handler, callback);
 	}
 }

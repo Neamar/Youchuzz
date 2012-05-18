@@ -11,6 +11,26 @@
         android:background="@drawable/button_gradient"
         android:text="Create new chuzz" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_loading"
+        android:gravity="center" >
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_ui_loading"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/home_chuzzs"
         android:layout_width="match_parent"
