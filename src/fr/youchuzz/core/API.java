@@ -78,7 +78,6 @@ public class API {
 	public void setNextToken(String nextToken)
 	{
 		this.nextToken = nextToken;
-		Log.e("yc", nextToken);
 	}
 	
 	

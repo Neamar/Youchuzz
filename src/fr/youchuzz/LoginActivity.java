@@ -3,6 +3,7 @@ package fr.youchuzz;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +19,8 @@ import com.facebook.android.FacebookError;
 import fr.youchuzz.core.API;
 
 public class LoginActivity extends BaseActivity {
-	Facebook facebook = new Facebook("297600333614254");
+	private Facebook facebook = new Facebook("297600333614254");
+	private SharedPreferences mPrefs;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -31,7 +33,26 @@ public class LoginActivity extends BaseActivity {
 		setContentView(R.layout.activity_login);
 		
 		aq = new AQuery(this);
+		aq.id(R.id.login_step2).invisible();
 		aq.id(R.id.login_facebook).clicked(this, "onFacebookButtonClick");
+		
+		/*
+		 * Get existing access_token if any
+		 */
+		mPrefs = getPreferences(MODE_PRIVATE);
+		String access_token = mPrefs.getString("access_token", null);
+		long expires = mPrefs.getLong("access_expires", 0);
+		if(access_token != null) {
+			facebook.setAccessToken(access_token);
+		}
+		if(expires != 0) {
+			facebook.setAccessExpires(expires);
+		}
+		
+		if(facebook.isSessionValid())
+		{
+			youchuzzLogin(facebook.getAccessToken());
+		}
 	}
 	
 	@Override
@@ -51,7 +72,13 @@ public class LoginActivity extends BaseActivity {
 		facebook.authorize(this, new DialogListener() {
 			@Override
 			public void onComplete(Bundle values) {
-				//Everything is OK
+				//Register token for future usage
+				SharedPreferences.Editor editor = mPrefs.edit();
+				editor.putString("access_token", facebook.getAccessToken());
+				editor.putLong("access_expires", facebook.getAccessExpires());
+				editor.commit();
+
+				// Log into youchuzz
 				youchuzzLogin(facebook.getAccessToken());
 			}
 			
@@ -61,7 +88,9 @@ public class LoginActivity extends BaseActivity {
 			}
 			
 			@Override
-			public void onError(DialogError e) {}
+			public void onError(DialogError e) {
+				Toast.makeText(getBaseContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+			}
 			
 			@Override
 			public void onCancel() {
@@ -78,10 +107,21 @@ public class LoginActivity extends BaseActivity {
 	 */
 	public void youchuzzLogin(String facebookToken)
 	{
+		aq.id(R.id.login_facebook).invisible();
+		aq.id(R.id.login_step2).visible();
+		
 		API.getInstance().login(facebook.getAccessToken(), this, "youchuzzLogged");
 		//TODO: display spinner
 	}
 	
+	/**
+	 * Called once successfully logged onto Youchuzz
+	 * Register session_id and open HomeActivity
+	 * 
+	 * @param url
+	 * @param json
+	 * @param status
+	 */
 	public void youchuzzLogged(String url, JSONObject json, AjaxStatus status) {
 		if(json == null)
 		{

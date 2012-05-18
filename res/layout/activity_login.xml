@@ -8,16 +8,16 @@
         android:id="@+id/login_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/login_ui_logo"
         android:layout_gravity="center"
+        android:contentDescription="@string/login_ui_logo"
         android:src="@drawable/logo_youchuzz" />
 
     <TextView
         android:id="@+id/login_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_gravity="center"
+        android:gravity="center"
         android:text="@string/login_ui_help"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -33,6 +33,25 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/login_ui_facebook"
             android:src="@drawable/facebook_connect" />
+
+        <LinearLayout
+            android:id="@+id/login_step2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <ProgressBar
+                android:id="@+id/progressBar2"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/login_youchuzz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_ui_youchuzz" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
