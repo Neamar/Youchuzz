@@ -70,16 +70,26 @@ public class API {
 		aq = new AQuery(ac);
 	}
 	
+	public void setSessionId(String sessionId)
+	{
+		this.sessionId = sessionId;
+	}
+	
+	public void setNextToken(String nextToken)
+	{
+		this.nextToken = nextToken;
+	}
+	
 	
 	/**
 	 * Get back session id for youchuzz.
 	 * @param facebookToken
 	 * @return youchuzzToken
 	 */
-	public void login(String facebookToken, AjaxCallback<JSONObject> callback)
+	public void login(String facebookToken, Object handler, String callback)
 	{
-		String url = baseUrl + "user/login_fb?fb_token=" + facebookToken;
+		String url = baseUrl + "/user/login_fb?fb_token=" + facebookToken;
 
-		aq.ajax(url, JSONObject.class, callback);
+		aq.ajax(url, JSONObject.class, handler, callback);
 	}
 }

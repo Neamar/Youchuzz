@@ -6,6 +6,7 @@
 	<string name="login_ui_help">Ask for your friend\'s opinion in a very simple way!</string>
 	<string name="login_ui_logo">Youchuzz logo</string>
 	<string name="login_ui_facebook">Login with Facebook</string>
+	<string name="login_facebook_clicked_cancel">You need to allow Facebook in order to use Youchuzz</string>
 	
 	<!-- Activity Home -->
 	<string name="home_ui_item_title">{{ title }}</string>
