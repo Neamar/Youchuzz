@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/login_ui_logo"
+        android:layout_gravity="center"
         android:src="@drawable/logo_youchuzz" />
 
     <TextView
@@ -16,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_gravity="center"
         android:text="@string/login_ui_help"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

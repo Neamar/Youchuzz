@@ -44,7 +44,7 @@ public class API {
 	/**
 	 * Baseurl for all API calls
 	 */
-	private String baseUrl = "https://api.youchuzz.com";
+	private String baseUrl = "http://api.youchuzz.com";
 	
 	public String sessionId;
 	
@@ -78,6 +78,7 @@ public class API {
 	public void setNextToken(String nextToken)
 	{
 		this.nextToken = nextToken;
+		Log.e("yc", nextToken);
 	}
 	
 	

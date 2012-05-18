@@ -1,25 +1,23 @@
 package fr.youchuzz;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
-
-import com.facebook.android.*;
-import com.facebook.android.Facebook.*;
-
-import fr.youchuzz.core.API;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class LoginActivity extends Activity {
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
+
+import fr.youchuzz.core.API;
+
+public class LoginActivity extends BaseActivity {
 	Facebook facebook = new Facebook("297600333614254");
 	
 	/** Called when the activity is first created. */
@@ -32,8 +30,7 @@ public class LoginActivity extends Activity {
 		
 		setContentView(R.layout.activity_login);
 		
-		AQuery aq = new AQuery(this);
-		
+		aq = new AQuery(this);
 		aq.id(R.id.login_facebook).clicked(this, "onFacebookButtonClick");
 	}
 	
@@ -86,9 +83,17 @@ public class LoginActivity extends Activity {
 	}
 	
 	public void youchuzzLogged(String url, JSONObject json, AjaxStatus status) {
-		Log.e("yc", url);
-
-		Intent myIntent = new Intent(this, HomeActivity.class);
-		startActivity(myIntent);
+		if(json == null)
+		{
+			Log.e("yc", "Error while logging in." + status.getCode());
+		}
+		else
+		{
+			API.getInstance().setNextToken(getString(json, "token"));
+			API.getInstance().setSessionId(getString(json, "id_session"));
+			
+			Intent myIntent = new Intent(this, HomeActivity.class);
+			startActivity(myIntent);
+		}
 	}
 }
