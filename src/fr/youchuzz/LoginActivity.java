@@ -140,6 +140,9 @@ public class LoginActivity extends BaseActivity {
 			API.getInstance().setNextToken(getString(json, "token"));
 			API.getInstance().setSessionId(getString(json, "id_session"));
 			
+			Log.i("yc", "Logged in, session_id=" + getString(json, "id_session"));
+
+			
 			Intent myIntent = new Intent(this, HomeActivity.class);
 			startActivity(myIntent);
 		}

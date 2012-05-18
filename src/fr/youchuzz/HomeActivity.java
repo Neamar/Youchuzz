@@ -3,11 +3,15 @@ package fr.youchuzz;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
@@ -25,9 +29,6 @@ public class HomeActivity extends BaseActivity {
 		setContentView(R.layout.activity_home);
 		
 		aq = new AQuery(this);
-		
-		aq.id(R.id.home_loading).visible();
-		aq.id(R.id.home_chuzzs).invisible();
 		aq.id(R.id.home_create).clicked(new View.OnClickListener() {
 			
 			@Override
@@ -38,27 +39,42 @@ public class HomeActivity extends BaseActivity {
 		});
 		
 		API.getInstance().getChuzzs(this, "onChuzzsLoaded");
+	
+		modalLoad("", getString(R.string.home_loading));
 	}
 	
 	public void onChuzzsLoaded(String url, JSONArray json, AjaxStatus status)
 	{
-		ArrayList<Chuzz> m_chuzzs = new ArrayList<Chuzz>();
-		Chuzz c1 = new Chuzz();
-		c1.title = "Rouge à lèvres";
-		c1.nbVoters = 12;
-		c1.creationDate = "12/03/2012";
-		Chuzz c2 = new Chuzz();
-		c2.title = "Montre Rolex";
-		c2.nbVoters = 158;
-		c2.creationDate = "10/03/2012";
-		m_chuzzs.add(c1);
-		m_chuzzs.add(c2);
+		endModalLoad();
+		if(json == null)
+		{
+			onJsonNull("Error while getting chuzzs list : err. " + status.getCode());
+		}
+		else
+		{
+			ArrayList<Chuzz> chuzzsList = new ArrayList<Chuzz>();
+			
+			for(int i = 0; i < json.length(); i++)
+			{
+				JSONObject jsonChuzz = new JSONObject();
+				try {
+					jsonChuzz = json.getJSONObject(i);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				Chuzz chuzz = new Chuzz();
+				chuzz.id = getInt(jsonChuzz, "chuzz_id");
+				chuzz.title = getString(jsonChuzz, "title");
+				chuzz.nbVoters = getInt(jsonChuzz, "voters");
+				chuzz.creationDate = getString(jsonChuzz, "creation");
+				chuzz.imageUrl = getString(jsonChuzz, "img");
 
-		ListView lv = (ListView) findViewById(R.id.home_chuzzs);
-		ChuzzAdapter m_adapter = new ChuzzAdapter(this, R.layout.item_home_chuzz, m_chuzzs);
-		lv.setAdapter(m_adapter);
-		
-		aq.id(R.id.home_loading).invisible();
-		aq.id(R.id.home_chuzzs).visible();
+				chuzzsList.add(chuzz);
+			}
+	
+			ListView lv = (ListView) findViewById(R.id.home_chuzzs);
+			ChuzzAdapter adapter = new ChuzzAdapter(this, R.layout.item_home_chuzz, chuzzsList);
+			lv.setAdapter(adapter);
+		}
 	}
 }

@@ -14,5 +14,7 @@ public class CreateContentActivity extends Activity {
 		setContentView(R.layout.activity_create_content);
 		
 		AQuery aq = new AQuery(this);
+		
+		//http://developer.android.com/reference/android/content/Intent.html#ACTION_GET_CONTENT
 	}
 }

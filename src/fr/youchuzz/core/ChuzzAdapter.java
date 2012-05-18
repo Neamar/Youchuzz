@@ -35,7 +35,7 @@ public class ChuzzAdapter extends ArrayAdapter<Chuzz> {
 			AQuery aq = new AQuery(v);
 			aq.id(R.id.home_item_title).text(c.title);
 			aq.id(R.id.home_item_desc).text(c.getDesc());
-			aq.id(R.id.home_item_img).image("https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/41367_100001639836249_7471_q.jpg",true, true,50, R.drawable.ic_menu_attachment);
+			aq.id(R.id.home_item_img).image(c.imageUrl, true, true,50, R.drawable.ic_menu_attachment);
 		}
 		return v;
 	}
