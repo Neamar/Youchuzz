@@ -32,10 +32,6 @@ public class LoginActivity extends BaseActivity {
 		
 		setContentView(R.layout.activity_login);
 		
-		aq = new AQuery(this);
-		aq.id(R.id.login_step2).invisible();
-		aq.id(R.id.login_facebook).clicked(this, "onFacebookButtonClick");
-		
 		/*
 		 * Get existing access_token if any
 		 */
@@ -53,6 +49,10 @@ public class LoginActivity extends BaseActivity {
 		{
 			onFacebookLogged(facebook.getAccessToken());
 		}
+		
+		aq = new AQuery(this);
+		aq.id(R.id.login_step2).invisible();
+		aq.id(R.id.login_facebook).clicked(this, "onFacebookButtonClicked");
 	}
 	
 	@Override
@@ -69,6 +69,8 @@ public class LoginActivity extends BaseActivity {
 	 */
 	public void onFacebookButtonClicked(View v)
 	{
+		//Avoid double click while loading
+		aq.id(R.id.login_facebook).invisible();
 		facebook.authorize(this, new DialogListener() {
 			@Override
 			public void onComplete(Bundle values) {

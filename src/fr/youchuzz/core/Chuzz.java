@@ -1,7 +1,5 @@
 package fr.youchuzz.core;
 
-import fr.youchuzz.R;
-
 /**
  * Class handling data for a chuzz
  * @author neamar
