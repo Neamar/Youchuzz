@@ -43,12 +43,11 @@ public class API {
 	 */
 	private String baseUrl = "http://api.youchuzz.com";
 	
-	public String sessionId;
-	
 	/**
-	 * Token to be used for next connexion.
+	 * Session id, to be used with each API call (with id_session parameter)
 	 */
-	public String nextToken;
+	public String sessionId;
+
 	
 	/**
 	 * AQuery object for api-calls.
@@ -70,11 +69,6 @@ public class API {
 	public void setSessionId(String sessionId)
 	{
 		this.sessionId = sessionId;
-	}
-	
-	public void setNextToken(String nextToken)
-	{
-		this.nextToken = nextToken;
 	}
 	
 	
@@ -100,8 +94,21 @@ public class API {
 	 */
 	public void getChuzzs(Object handler, String callback)
 	{
-		String url = baseUrl + "/user/chuzzs?token=" + nextToken;
+		String url = buildUrl("/user/chuzzs", "");
 
 		aq.ajax(url, JSONArray.class, handler, callback);
+	}
+	
+	
+	/**
+	 * Build an API-URL
+	 * @param url the url to be used, e.g. "/user/chuzzs"
+	 * @param params params urlencoded, e.g. foo=bar&bar=foo
+	 * @return URL
+	 */
+	public String buildUrl(String url, String params)
+	{
+		Log.i("yc", "Retrieving " + baseUrl + url + "?id_session=" + sessionId + "&" + params);
+		return baseUrl + url + "?id_session=" + sessionId + "&" + params;
 	}
 }

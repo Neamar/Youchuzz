@@ -32,6 +32,10 @@ public class LoginActivity extends BaseActivity {
 		
 		setContentView(R.layout.activity_login);
 		
+		aq = new AQuery(this);
+		aq.id(R.id.login_step2).invisible();
+		aq.id(R.id.login_facebook).clicked(this, "onFacebookButtonClicked");
+		
 		/*
 		 * Get existing access_token if any
 		 */
@@ -49,10 +53,6 @@ public class LoginActivity extends BaseActivity {
 		{
 			onFacebookLogged(facebook.getAccessToken());
 		}
-		
-		aq = new AQuery(this);
-		aq.id(R.id.login_step2).invisible();
-		aq.id(R.id.login_facebook).clicked(this, "onFacebookButtonClicked");
 	}
 	
 	@Override
@@ -113,6 +113,7 @@ public class LoginActivity extends BaseActivity {
 		aq.id(R.id.login_step2).visible();
 		
 		API.getInstance().login(facebook.getAccessToken(), this, "youchuzzLogged");
+		
 		//TODO: display spinner
 	}
 	
@@ -125,11 +126,14 @@ public class LoginActivity extends BaseActivity {
 	 * @param status
 	 */
 	public void youchuzzLogged(String url, JSONObject json, AjaxStatus status) {
+		
+		//Check for errors
 		if(json == null)
 		{
 			Log.e("yc", "Error while logging in : err. " + status.getCode());
 			Toast.makeText(getBaseContext(), "Error while logging in : err. " + status.getCode(), Toast.LENGTH_LONG).show();
 			
+			//Remove all tokens, in case it has been corrupted.
 			SharedPreferences.Editor editor = mPrefs.edit();
 			editor.putString("access_token", "(old)");
 			editor.putLong("access_expires", -1);
@@ -139,12 +143,12 @@ public class LoginActivity extends BaseActivity {
 		}
 		else
 		{
-			API.getInstance().setNextToken(getString(json, "token"));
+			//Remember session_id for all application life
 			API.getInstance().setSessionId(getString(json, "id_session"));
 			
 			Log.i("yc", "Logged in, session_id=" + getString(json, "id_session"));
 
-			
+			//Start Home Activity
 			Intent myIntent = new Intent(this, HomeActivity.class);
 			startActivity(myIntent);
 		}

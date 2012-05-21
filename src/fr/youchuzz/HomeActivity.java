@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -52,6 +53,7 @@ public class HomeActivity extends BaseActivity {
 		{
 			ArrayList<Chuzz> chuzzsList = new ArrayList<Chuzz>();
 			
+			Log.i("yc", "Retrieved " + Integer.toString(json.length()) + " chuzz(s).");
 			for(int i = 0; i < json.length(); i++)
 			{
 				JSONObject jsonChuzz = new JSONObject();
