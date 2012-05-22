@@ -26,7 +26,7 @@ import com.androidquery.callback.AjaxStatus;
 
 import fr.youchuzz.core.API;
 
-public class CreateContentActivity extends BaseActivity {
+public class CreateActivity extends BaseActivity {
 	
 	private int CONTENT_1 = 1;
 	private int CONTENT_2 = 2;
@@ -51,9 +51,9 @@ public class CreateContentActivity extends BaseActivity {
 		
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.activity_create_content);
+		setContentView(R.layout.activity_create);
 		
-		nextActivityIntent = new Intent(this, CreateContentActivity.class);
+		nextActivityIntent = new Intent(this, CreateActivity.class);
 		
 		aq = new AQuery(this);
 		
@@ -61,13 +61,13 @@ public class CreateContentActivity extends BaseActivity {
 		updateUi(CONTENT_1, PICKING);
 		updateUi(CONTENT_2, PICKING);
 		
-		aq.id(R.id.create_content_add_1).clicked(this, "onPickContent");
-		aq.id(R.id.create_content_add_2).clicked(this, "onPickContent");
-		aq.id(R.id.create_content_save).clicked(this, "onSave");
+		aq.id(R.id.create_add_1).clicked(this, "onPickContent");
+		aq.id(R.id.create_add_2).clicked(this, "onPickContent");
+		aq.id(R.id.create_save).clicked(this, "onSave");
 		
 		
-		registerForContextMenu(aq.id(R.id.create_content_add_1).getView());
-		registerForContextMenu(aq.id(R.id.create_content_add_2).getView());
+		registerForContextMenu(aq.id(R.id.create_add_1).getView());
+		registerForContextMenu(aq.id(R.id.create_add_2).getView());
 	}
 	
 	/**
@@ -76,9 +76,9 @@ public class CreateContentActivity extends BaseActivity {
 	 */
 	public void onPickContent(View v)
 	{
-		if(v.getId() == R.id.create_content_add_1)
+		if(v.getId() == R.id.create_add_1)
 			currentlyPicking = CONTENT_1;
-		else if(v.getId() == R.id.create_content_add_2)
+		else if(v.getId() == R.id.create_add_2)
 			currentlyPicking = CONTENT_2;
 		
 		v.showContextMenu();
@@ -91,20 +91,20 @@ public class CreateContentActivity extends BaseActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_content_source_picker, menu);
+		inflater.inflate(R.menu.menu_create_source_picker, menu);
 	}
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_content_source_pick_gallery:
+			case R.id.menu_create_source_pick_gallery:
 				//Pick from gallery (or other file browser)
 				Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 				galleryIntent.setType("image/*");
-				startActivityForResult(Intent.createChooser(galleryIntent, getString(R.string.create_content_pick_image)), REQUEST_IMAGE);
+				startActivityForResult(Intent.createChooser(galleryIntent, getString(R.string.create_pick_image)), REQUEST_IMAGE);
 
 				return true;
-			case R.id.menu_content_source_pick_photo:
+			case R.id.menu_create_source_pick_photo:
 				//Pick by taking new picture
 				return true;
 			default:
@@ -158,12 +158,12 @@ public class CreateContentActivity extends BaseActivity {
 			int id = 0;
 			if(currentlyPicking == CONTENT_1)
 			{
-				id = R.id.create_content_image_1;
+				id = R.id.create_image_1;
 				nextActivityIntent.putExtra("content1", getString(json, "id_content"));
 			}
 			else
 			{
-				id = R.id.create_content_image_2;
+				id = R.id.create_image_2;
 				nextActivityIntent.putExtra("content2", getString(json, "id_content"));
 			}
 			
@@ -175,11 +175,11 @@ public class CreateContentActivity extends BaseActivity {
 	
 	public void onSave(View v)
 	{
-		String title = aq.id(R.id.create_content_title).getText().toString();
+		String title = aq.id(R.id.create_title).getText().toString();
 		if(title.equals(""))
 		{
 			error("You need to add a title for your chuzz.");
-			aq.id(R.id.create_content_title).getView().requestFocus();
+			aq.id(R.id.create_title).getView().requestFocus();
 		}
 		else if(!nextActivityIntent.hasExtra("content1") || !nextActivityIntent.hasExtra("content2"))
 		{
@@ -201,11 +201,11 @@ public class CreateContentActivity extends BaseActivity {
 		
 		if(content == 1)
 		{
-			ids = new int[]{R.id.create_content_add_1, R.id.create_content_uploading_1, R.id.create_content_image_1};
+			ids = new int[]{R.id.create_add_1, R.id.create_uploading_1, R.id.create_image_1};
 		}
 		else if(content == 2)
 		{
-			ids = new int[]{R.id.create_content_add_2, R.id.create_content_uploading_2, R.id.create_content_image_2};
+			ids = new int[]{R.id.create_add_2, R.id.create_uploading_2, R.id.create_image_2};
 		}
 		
 		//Hide all

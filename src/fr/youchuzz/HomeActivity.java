@@ -32,7 +32,7 @@ public class HomeActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent myIntent = new Intent(v.getContext(), CreateContentActivity.class);
+				Intent myIntent = new Intent(v.getContext(), CreateActivity.class);
 				startActivity(myIntent);
 			}
 		});
