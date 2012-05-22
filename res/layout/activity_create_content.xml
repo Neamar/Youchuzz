@@ -5,11 +5,11 @@
     android:layout_height="fill_parent" >
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/create_content_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Titre du chuzz"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:hint="Titre du chuzz" >
 
         <requestFocus />
     </EditText>
@@ -28,11 +28,24 @@
         android:layout_weight="1"
         android:gravity="center" >
 
-            <ImageView
-                android:id="@+id/imageView1"
+            <ImageButton
+                android:id="@+id/create_content_add_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_menu_attachment" />
+
+            <ProgressBar
+                android:id="@+id/create_content_uploading_1"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/create_content_image_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_attachment" />
+
     </TableRow>
 
     <TableRow
@@ -41,17 +54,28 @@
         android:layout_weight="1"
         android:gravity="center" >
 
+        <ImageButton
+            android:id="@+id/create_content_add_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_attachment" />
+
+        <ProgressBar
+            android:id="@+id/create_content_uploading_2"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/create_content_image_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_menu_attachment" />
     </TableRow>
 </TableLayout>
 
-
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/create_content_save"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
