@@ -105,6 +105,20 @@ public class API {
 		aq.ajax(url, JSONArray.class, handler, callback);
 	}
 	
+	/**
+	 * List all friends for selected user
+	 * 
+	 * @param handler
+	 * @param callback as requested by AQuery
+	 */
+	public void getFriends(Object handler, String callback)
+	{
+		String url = buildUrl("/user/friends", "");
+
+		aq.ajax(url, JSONArray.class, handler, callback);
+	}
+	
+	
 	public void uploadContent(Object handler, String callback, File content)
 	{
 		String url = buildUrl("/chuzz/add_content", "");

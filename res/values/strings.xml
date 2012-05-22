@@ -20,4 +20,9 @@
 	<string name="create_pick_image">Select picture</string>
 	<string name="create_menu_image">Pictures</string>
 	<string name="create_menu_photo">Capture Picture</string>
+	
+	<!-- Activity Friend -->
+	<string name="friends_loading">Loading your friends</string>
+	<string name="friends_ui_wall">Publish on my wall</string>
+	<string name="friends_ui_item_name">{{ name }}</string>
 </resources>
