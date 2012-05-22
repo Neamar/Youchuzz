@@ -3,6 +3,7 @@ package fr.youchuzz;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import org.json.JSONObject;
 
@@ -39,6 +40,8 @@ public class CreateContentActivity extends BaseActivity {
 	
 	private int currentlyPicking = 0;
 	
+	private Intent nextActivityIntent;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class CreateContentActivity extends BaseActivity {
 		
 		setContentView(R.layout.activity_create_content);
 		
+		nextActivityIntent = new Intent(this, CreateContentActivity.class);
+		
 		aq = new AQuery(this);
 		
 		//Initialize ui, allow user to pick content
@@ -58,6 +63,7 @@ public class CreateContentActivity extends BaseActivity {
 		
 		aq.id(R.id.create_content_add_1).clicked(this, "onPickContent");
 		aq.id(R.id.create_content_add_2).clicked(this, "onPickContent");
+		aq.id(R.id.create_content_save).clicked(this, "onSave");
 		
 		
 		registerForContextMenu(aq.id(R.id.create_content_add_1).getView());
@@ -151,15 +157,40 @@ public class CreateContentActivity extends BaseActivity {
 			updateUi(currentlyPicking, PREVIEWING);
 			int id = 0;
 			if(currentlyPicking == CONTENT_1)
+			{
 				id = R.id.create_content_image_1;
+				nextActivityIntent.putExtra("content1", getString(json, "id_content"));
+			}
 			else
+			{
 				id = R.id.create_content_image_2;
+				nextActivityIntent.putExtra("content2", getString(json, "id_content"));
+			}
 			
-			aq.id(id).image(getString(json, "url_content"), true, true, 0, R.drawable.ic_menu_attachment);
-
+			aq.id(id).image(getString(json, "content_preview"), true, true, 0, R.drawable.ic_menu_attachment);
+			
+			
 		}
 	}
 	
+	public void onSave(View v)
+	{
+		String title = aq.id(R.id.create_content_title).getText().toString();
+		if(title.equals(""))
+		{
+			error("You need to add a title for your chuzz.");
+			aq.id(R.id.create_content_title).getView().requestFocus();
+		}
+		else if(!nextActivityIntent.hasExtra("content1") || !nextActivityIntent.hasExtra("content2"))
+		{
+			error("You need to select two contents before saving this chuzz.");
+		}
+		else
+		{
+			Log.i("yc", "Creating chuzz «" + title + "» with contents {" + nextActivityIntent.getStringExtra("content1") + "," + nextActivityIntent.getStringExtra("content2") + "}");
+			startActivity(nextActivityIntent);
+		}
+	}
 	/**
 	 * Update the UI to match current state
 	 * @param step
