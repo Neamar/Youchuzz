@@ -74,7 +74,7 @@ public class BaseActivity extends Activity {
 	 * Called when json returns is null, indicating a problem in data transfer.
 	 * @param msg msg to display as a toast and to log.
 	 */
-	protected void onJsonNull(String msg)
+	protected void error(String msg)
 	{
 		Log.e("yc", msg);
 		Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();

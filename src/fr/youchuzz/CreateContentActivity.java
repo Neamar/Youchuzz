@@ -1,16 +1,29 @@
 package fr.youchuzz;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import org.json.JSONObject;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+
+import fr.youchuzz.core.API;
 
 public class CreateContentActivity extends BaseActivity {
 	
@@ -29,6 +42,10 @@ public class CreateContentActivity extends BaseActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		
+		//TODO : temp stub
+		API.init(this);
+		
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_create_content);
@@ -90,17 +107,58 @@ public class CreateContentActivity extends BaseActivity {
 	}
 	
 
+	/**
+	 * Called when user has picked some content from some source
+	 */
 	public void onActivityResult (int requestCode, int resultCode, Intent data)
 	{
 		Log.i("yc", "Results for " + Integer.toString(requestCode));
 		if (resultCode == RESULT_OK) {
+			File content = null;
+			Uri selectedUri = null;
 			if (requestCode == REQUEST_IMAGE) {
-				Uri selectedImageUri = data.getData();
+				//GET IMAGE FROM GALLERY / FILE BROWSER
+				selectedUri = data.getData();
+				content = new File(getPath(selectedUri));
+			}
+			
+			if(content == null)
+			{
+				error("Unable to load this content. Please use another source.");
+			}
+			{
+				API.getInstance().uploadContent(this, "onContentUploaded", content);
+				
 				updateUi(currentlyPicking, UPLOADING);
 			}
 		}
 	}
 	
+	/**
+	 * Called when content has finished uploading
+	 */
+	public void onContentUploaded(String url, JSONObject json, AjaxStatus status)
+	{
+		//Check for errors
+		if(json == null)
+		{
+			error("Error while sending content : err. " + status.getCode());
+			updateUi(currentlyPicking, PICKING);
+		}
+		else
+		{
+			Log.i("yc", "Content saved, content_id=" + getString(json, "id_content"));
+			updateUi(currentlyPicking, PREVIEWING);
+			int id = 0;
+			if(currentlyPicking == CONTENT_1)
+				id = R.id.create_content_image_1;
+			else
+				id = R.id.create_content_image_2;
+			
+			aq.id(id).image(getString(json, "url_content"), true, true, 0, R.drawable.ic_menu_attachment);
+
+		}
+	}
 	
 	/**
 	 * Update the UI to match current state
@@ -128,4 +186,20 @@ public class CreateContentActivity extends BaseActivity {
 		//Display current ui-item
 		aq.id(ids[step]).visible();
 	}
+	
+	/**
+	 * Get absolute path from Uri
+	 * @param uri
+	 * @return path
+	 */
+	private String getPath(Uri uri)
+	{
+		String[] projection = { MediaStore.Images.Media.DATA };
+		Cursor cursor = managedQuery(uri, projection, null, null, null);
+		startManagingCursor(cursor);
+		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
+
 }

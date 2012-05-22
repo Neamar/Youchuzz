@@ -130,9 +130,8 @@ public class LoginActivity extends BaseActivity {
 		//Check for errors
 		if(json == null)
 		{
-			Log.e("yc", "Error while logging in : err. " + status.getCode());
-			Toast.makeText(getBaseContext(), "Error while logging in : err. " + status.getCode(), Toast.LENGTH_LONG).show();
-			
+			error("Error while logging in : err. " + status.getCode());
+
 			//Remove all tokens, in case it has been corrupted.
 			SharedPreferences.Editor editor = mPrefs.edit();
 			editor.putString("access_token", "(old)");

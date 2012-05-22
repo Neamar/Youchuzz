@@ -1,5 +1,9 @@
 package fr.youchuzz.core;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,6 +11,8 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 
 /**
  * Communication avec l'API Youchuzz
@@ -46,7 +52,7 @@ public class API {
 	/**
 	 * Session id, to be used with each API call (with id_session parameter)
 	 */
-	public String sessionId;
+	public String sessionId = "";
 
 	
 	/**
@@ -99,16 +105,28 @@ public class API {
 		aq.ajax(url, JSONArray.class, handler, callback);
 	}
 	
+	public void uploadContent(Object handler, String callback, File content)
+	{
+		String url = buildUrl("/chuzz/add_content", "");
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("content", content);
+
+		aq.ajax(url, params, JSONObject.class, handler, callback);
+	}
 	
 	/**
 	 * Build an API-URL
 	 * @param url the url to be used, e.g. "/user/chuzzs"
-	 * @param params params urlencoded, e.g. foo=bar&bar=foo
+	 * @param getParams params urlencoded, e.g. foo=bar&bar=foo
 	 * @return URL
 	 */
-	public String buildUrl(String url, String params)
+	protected String buildUrl(String url, String getParams)
 	{
-		Log.i("yc", "Retrieving " + baseUrl + url + "?id_session=" + sessionId + "&" + params);
-		return baseUrl + url + "?id_session=" + sessionId + "&" + params;
+		if(getParams.length() > 0)
+			getParams = "&" + getParams;
+		
+		Log.i("yc", "Retrieving " + baseUrl + url + "?id_session=" + sessionId + getParams);
+		return baseUrl + url + "?id_session=" + sessionId + "&" + getParams;
 	}
 }

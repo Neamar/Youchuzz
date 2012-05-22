@@ -47,7 +47,7 @@ public class HomeActivity extends BaseActivity {
 		endModalLoad();
 		if(json == null)
 		{
-			onJsonNull("Error while getting chuzzs list : err. " + status.getCode());
+			error("Error while getting chuzzs list : err. " + status.getCode());
 		}
 		else
 		{
