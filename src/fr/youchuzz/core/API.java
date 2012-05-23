@@ -1,6 +1,7 @@
 package fr.youchuzz.core;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,7 +119,13 @@ public class API {
 		aq.ajax(url, JSONArray.class, handler, callback);
 	}
 	
-	
+	/**
+	 * Upload new content to be used with future chuzz.
+	 * 
+	 * @param handler
+	 * @param callback as requested by AQuery
+	 * @param content file to be uploaded
+	 */
 	public void uploadContent(Object handler, String callback, File content)
 	{
 		String url = buildUrl("/chuzz/add_content", "");
@@ -128,6 +135,28 @@ public class API {
 
 		aq.ajax(url, params, JSONObject.class, handler, callback);
 	}
+	
+	/**
+	 * Create new chuzz
+	 * 
+	 * @param handler
+	 * @param callback as requested by AQuery
+	 * @param title title for the chuzz
+	 * @param contents id-list for the contents, as returned by uploadContent
+	 * @param friends id-list for the friends, as returned by getFriends
+	 */
+	public void createChuzz(Object handler, String callback, String title, ArrayList<Integer> contents, ArrayList<Integer> friends)
+	{
+		String url = buildUrl("/chuzz/create", "");
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("title", title);
+		params.put("contents", contents);
+		params.put("friends", friends);
+
+		aq.ajax(url, params, JSONObject.class, handler, callback);
+	}
+	
 	
 	/**
 	 * Build an API-URL

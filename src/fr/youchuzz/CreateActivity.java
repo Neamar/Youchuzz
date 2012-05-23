@@ -26,6 +26,21 @@ import com.androidquery.callback.AjaxStatus;
 
 import fr.youchuzz.core.API;
 
+/**
+ * Create a new chuzz.
+ * 
+ * Ask the user to choose a title and to pick two contents from his phone.
+ * 
+ * Typical workflow :
+ * - onCreate, then you click on a content picker :
+ * - onPickContent, then you choose content type from the dialog leading you to
+ * - onContextItemSelected, then you pick content using whatever method you asked, returning to
+ * - onActivityResult, which will start upload and then call
+ * - onContentUploaded. Once you've done that twice, you may call
+ * - onSave, which will display friend list before saving.
+ * @author neamar
+ *
+ */
 public class CreateActivity extends BaseActivity {
 	
 	private int CONTENT_1 = 1;
@@ -45,15 +60,11 @@ public class CreateActivity extends BaseActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
-		//TODO : temp stub
-		API.init(this);
-		
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_create);
 		
-		nextActivityIntent = new Intent(this, CreateActivity.class);
+		nextActivityIntent = new Intent(this, FriendsActivity.class);
 		
 		aq = new AQuery(this);
 		
@@ -187,7 +198,8 @@ public class CreateActivity extends BaseActivity {
 		}
 		else
 		{
-			Log.i("yc", "Creating chuzz «" + title + "» with contents {" + nextActivityIntent.getStringExtra("content1") + "," + nextActivityIntent.getStringExtra("content2") + "}");
+			Log.i("yc", "Creating chuzz « " + title + " » with contents {" + nextActivityIntent.getStringExtra("content1") + "," + nextActivityIntent.getStringExtra("content2") + "}");
+			nextActivityIntent.putExtra("title", title);
 			startActivity(nextActivityIntent);
 		}
 	}

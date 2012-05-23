@@ -6,13 +6,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
@@ -21,17 +20,32 @@ import fr.youchuzz.core.API;
 import fr.youchuzz.core.Friend;
 import fr.youchuzz.core.FriendAdapter;
 
+/**
+ * Display your friend list, then send your chuzz to the selected ones.
+ * 
+ * @author neamar
+ *
+ */
 public class FriendsActivity extends BaseActivity {
 
+	/**
+	 * Intent calling this activity
+	 */
+	private Intent callingIntent;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
-		//TODO : temp stub
-		API.init(this);
-		
 		super.onCreate(savedInstanceState);
 		
+		
+		callingIntent = getIntent();
+		if(!callingIntent.hasExtra("title"))
+		{
+			error("Displaying Friends list before picking content. Aborting launch.");
+			finish();
+		}
+
 		setContentView(R.layout.activity_friends);
 
 		aq = new AQuery(this);
@@ -43,6 +57,8 @@ public class FriendsActivity extends BaseActivity {
 		aq.id(R.id.friends_list).itemClicked(this, "onItemClicked");
 		
 		aq.id(R.id.friends_publish_wall).clicked(this, "onWallClicked");
+		
+		aq.id(R.id.friends_send).clicked(this, "onSend");
 	}
 	
 	public void onFriendLoaded(String url, JSONArray json, AjaxStatus status)
@@ -111,6 +127,11 @@ public class FriendsActivity extends BaseActivity {
 		checkbox.checked(checked);
 		
 		parent.getAdapter().getFriend(pos).selected = checked;
+	}
+	
+	public void onSend(View v)
+	{
+		
 	}
 
 }
