@@ -24,12 +24,25 @@ import com.androidquery.util.AQUtility;
 public class API {
 	private static API api = null;
 	
+	/**
+	 * Init new APIs.
+	 * @param ac base activity
+	 */
 	public static void init(Activity ac)
 	{
 		if(API.api != null)
 			Log.w("youchuzz", "API constructor called twice.");
 		
 		API.api = new API(ac);
+	}
+	
+	/**
+	 * Update activity to be able to manipulate view ids.
+	 * @param ac
+	 */
+	public static void updateActivity(Activity ac)
+	{
+		api.aq = new AQuery(ac);
 	}
 	
 	public static API getInstance()

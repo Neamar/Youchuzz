@@ -55,6 +55,7 @@ public class CreateActivity extends BaseActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		API.updateActivity(this);
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_create);
