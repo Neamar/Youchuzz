@@ -165,9 +165,8 @@ public class FriendsActivity extends BaseActivity {
 		else
 		{
 			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
-			Log.e("yc", json.toString());
 			
-			Toast.makeText(getApplicationContext(), "CE CHUZZ A ÉTÉ CRÉÉ !", Toast.LENGTH_LONG);
+			error("CE CHUZZ A ÉTÉ CRÉÉ !");
 			
 			//TODO : display chuzz
 			Intent myIntent = new Intent(this, HomeActivity.class);

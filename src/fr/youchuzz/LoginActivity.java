@@ -71,6 +71,7 @@ public class LoginActivity extends BaseActivity {
 	 */
 	public void onFacebookButtonClicked(View v)
 	{
+		Toast.makeText(getBaseContext(), "Logging", Toast.LENGTH_LONG).show();
 		//Avoid double click while loading
 		aq.id(R.id.login_facebook).invisible();
 		facebook.authorize(this, new DialogListener() {
@@ -89,16 +90,19 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onFacebookError(FacebookError error) {
 				Toast.makeText(getBaseContext(), error.getErrorType(), Toast.LENGTH_LONG).show();
+				aq.id(R.id.login_facebook).visible();
 			}
 			
 			@Override
 			public void onError(DialogError e) {
 				Toast.makeText(getBaseContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+				aq.id(R.id.login_facebook).visible();
 			}
 			
 			@Override
 			public void onCancel() {
 				Toast.makeText(getBaseContext(), R.string.login_facebook_clicked_cancel, Toast.LENGTH_LONG).show();
+				aq.id(R.id.login_facebook).visible();
 			}
 		});
 	}
