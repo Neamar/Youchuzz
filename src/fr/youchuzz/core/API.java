@@ -14,6 +14,7 @@ import android.util.Log;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.androidquery.util.AQUtility;
 
 /**
  * Communication avec l'API Youchuzz
@@ -89,8 +90,8 @@ public class API {
 	public void login(String facebookToken, Object handler, String callback)
 	{
 		String url = baseUrl + "/user/login_fb?fb_token=" + facebookToken;
-
-		aq.ajax(url, JSONObject.class, handler, callback);
+		
+		aq.ajax(url, JSONObject.class, APIWrapper.createForObject(handler, callback));
 	}
 	
 	/**
@@ -103,7 +104,7 @@ public class API {
 	{
 		String url = buildUrl("/user/chuzzs", "");
 
-		aq.ajax(url, JSONArray.class, handler, callback);
+		aq.ajax(url, JSONArray.class, APIWrapper.createForArray(handler, callback));
 	}
 	
 	/**
@@ -116,7 +117,7 @@ public class API {
 	{
 		String url = buildUrl("/user/friends", "");
 
-		aq.ajax(url, JSONArray.class, handler, callback);
+		aq.ajax(url, JSONArray.class, APIWrapper.createForArray(handler, callback));
 	}
 	
 	/**
@@ -133,7 +134,7 @@ public class API {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("content", content);
 
-		aq.ajax(url, params, JSONObject.class, handler, callback);
+		aq.ajax(url, params, JSONObject.class, APIWrapper.createForObject(handler, callback));
 	}
 	
 	/**
@@ -154,7 +155,7 @@ public class API {
 		params.put("contents", contents);
 		params.put("friends", friends);
 
-		aq.ajax(url, params, JSONObject.class, handler, callback);
+		aq.ajax(url, params, JSONObject.class, APIWrapper.createForObject(handler, callback));
 	}
 	
 	
@@ -168,8 +169,60 @@ public class API {
 	{
 		if(getParams.length() > 0)
 			getParams = "&" + getParams;
-		
-		Log.i("yc", "Retrieving " + baseUrl + url + "?id_session=" + sessionId + getParams);
+
 		return baseUrl + url + "?id_session=" + sessionId + "&" + getParams;
+	}
+
+}
+
+/**
+ * This class kinda acts like a closure around the defined callback function.
+ * When getting back API results, we use an APIWrapper as a middleware between the API and the function.
+ * This allos us to do some logging, and to check for errors.
+ * 
+ * @author neamar
+ *
+ * @param <T> Either JSONArray or JSONObject. Use static helper.
+ */
+class APIWrapper<T> extends AjaxCallback<T>
+{
+	private Class<T> type;
+	private Object handler;
+	private String callback;
+	
+	public static APIWrapper<JSONArray> createForArray(Object handler, String callback)
+	{
+		APIWrapper<JSONArray> wrapper = new APIWrapper<JSONArray>();
+		wrapper.setHandler(JSONArray.class, handler, callback);
+		
+		return wrapper;
+	}
+	
+	public static APIWrapper<JSONObject> createForObject(Object handler, String callback)
+	{
+		APIWrapper<JSONObject> wrapper = new APIWrapper<JSONObject>();
+		wrapper.setHandler(JSONObject.class, handler, callback);
+		
+		return wrapper;
+	}
+	
+	public void setHandler(Class<T> type, Object handler, String callback)
+	{
+		this.type = type;
+		this.handler = handler;
+		this.callback = callback;
+	}
+	
+	public void callback(String url, T json, AjaxStatus status) {
+		if(json != null)
+		{
+			Log.v("yc_request", url);
+			Log.v("yc_result", json.toString());
+		}
+		
+		Class<?>[] AJAX_SIG = {String.class, type, AjaxStatus.class};
+		Class<?>[] DEFAULT_SIG = {String.class, Object.class, AjaxStatus.class};
+		
+		AQUtility.invokeHandler(handler, callback, true, false, AJAX_SIG, DEFAULT_SIG, url, json, status);
 	}
 }

@@ -124,8 +124,13 @@ public class CreateActivity extends BaseActivity {
 	 */
 	public void onActivityResult (int requestCode, int resultCode, Intent data)
 	{
-		Log.i("yc", "Results for " + Integer.toString(requestCode));
-		if (resultCode == RESULT_OK) {
+		Log.i("yc", "Getting back result for request " + Integer.toString(requestCode));
+		if (resultCode != RESULT_OK)
+		{
+			error("Unable to retrieve file :(");
+		}
+		else
+		{
 			File content = null;
 			Uri selectedUri = null;
 			if (requestCode == REQUEST_IMAGE) {
