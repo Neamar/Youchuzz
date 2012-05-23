@@ -145,7 +145,7 @@ public class API {
 	 * @param contents id-list for the contents, as returned by uploadContent
 	 * @param friends id-list for the friends, as returned by getFriends
 	 */
-	public void createChuzz(Object handler, String callback, String title, ArrayList<Integer> contents, ArrayList<Integer> friends)
+	public void createChuzz(Object handler, String callback, String title, ArrayList<String> contents, ArrayList<Integer> friends)
 	{
 		String url = buildUrl("/chuzz/create", "");
 

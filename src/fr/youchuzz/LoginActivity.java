@@ -1,5 +1,7 @@
 package fr.youchuzz;
 
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -148,6 +150,23 @@ public class LoginActivity extends BaseActivity {
 			Log.i("yc", "Logged in, session_id=" + getString(json, "id_session"));
 
 			//Start Home Activity
+			Intent myIntent = new Intent(this, HomeActivity.class);
+			startActivity(myIntent);
+		}
+	}
+	
+	public void onChuzzCreated(String url, JSONObject json, AjaxStatus status)
+	{
+		//Check for errors
+		if(json == null)
+		{
+			error("Error while posting chuzz : err. " + status.getCode());
+		}
+		else
+		{
+			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
+			
+			Toast.makeText(getApplicationContext(), "CE CHUZZ A ÉTÉ CRÉÉ !", Toast.LENGTH_LONG);
 			Intent myIntent = new Intent(this, HomeActivity.class);
 			startActivity(myIntent);
 		}

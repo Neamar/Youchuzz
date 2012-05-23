@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
@@ -131,7 +132,46 @@ public class FriendsActivity extends BaseActivity {
 	
 	public void onSend(View v)
 	{
+		ArrayList<String> contents = new ArrayList<String>();
+		ArrayList<Integer> friends = new ArrayList<Integer>();
 		
+		contents.add(callingIntent.getStringExtra("content1"));
+		contents.add(callingIntent.getStringExtra("content2"));
+		
+		if(aq.id(R.id.friends_publish_wall).isChecked())
+			friends.add(-1);
+		else
+		{
+			FriendAdapter list = (FriendAdapter) ((ListView) findViewById(R.id.friends_list)).getAdapter();
+			
+			for(int i = 0; i < list.getCount(); i++)
+			{
+				if(list.getFriend(i).selected)
+					friends.add(list.getFriend(i).id);
+			}
+		}
+		
+		API.getInstance().createChuzz(this, "onChuzzCreated", "Essai chuzz", contents, friends);
+
 	}
 
+	public void onChuzzCreated(String url, JSONObject json, AjaxStatus status)
+	{
+		//Check for errors
+		if(json == null)
+		{
+			error("Error while posting chuzz : err. " + status.getCode());
+		}
+		else
+		{
+			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
+			Log.e("yc", json.toString());
+			
+			Toast.makeText(getApplicationContext(), "CE CHUZZ A ÉTÉ CRÉÉ !", Toast.LENGTH_LONG);
+			
+			//TODO : display chuzz
+			Intent myIntent = new Intent(this, HomeActivity.class);
+			startActivity(myIntent);
+		}
+	}
 }
