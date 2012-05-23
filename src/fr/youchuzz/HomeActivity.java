@@ -70,8 +70,6 @@ public class HomeActivity extends BaseActivity {
 				chuzz.imageUrl = getString(jsonChuzz, "img");
 
 				chuzzsList.add(chuzz);
-				
-				Log.e("yc", chuzz.title);
 			}
 	
 			ListView lv = (ListView) findViewById(R.id.home_chuzzs);
