@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.androidquery.AQuery;
@@ -18,6 +19,7 @@ import com.androidquery.callback.AjaxStatus;
 import fr.youchuzz.core.API;
 import fr.youchuzz.core.Chuzz;
 import fr.youchuzz.core.ChuzzAdapter;
+import fr.youchuzz.core.FriendAdapter;
 
 public class HomeActivity extends BaseActivity {
 	/** Called when the activity is first created. */
@@ -28,20 +30,31 @@ public class HomeActivity extends BaseActivity {
 		setContentView(R.layout.activity_home);
 		
 		aq = new AQuery(this);
-		aq.id(R.id.home_create).clicked(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent myIntent = new Intent(v.getContext(), CreateActivity.class);
-				startActivity(myIntent);
-			}
-		});
+		aq.id(R.id.home_create).clicked(this, "onCreate");
+		
+		aq.id(R.id.home_chuzzs).itemClicked(this, "onItemClicked");
 		
 		API.getInstance().getChuzzs(this, "onChuzzsLoaded");
 	
 		modalLoad("", getString(R.string.home_loading));
 	}
 	
+	/**
+	 * Create new chuzz
+	 * @param v
+	 */
+	public void onCreate(View v)
+	{
+		Intent myIntent = new Intent(v.getContext(), CreateActivity.class);
+		startActivity(myIntent);
+	}
+	
+	/**
+	 * Display all chuzz
+	 * @param url
+	 * @param json
+	 * @param status
+	 */
 	public void onChuzzsLoaded(String url, JSONArray json, AjaxStatus status)
 	{
 		endModalLoad();
@@ -76,5 +89,10 @@ public class HomeActivity extends BaseActivity {
 			ChuzzAdapter adapter = new ChuzzAdapter(this, R.layout.item_home_chuzz, chuzzsList);
 			lv.setAdapter(adapter);
 		}
+	}
+	
+	public void onItemClicked(AdapterView<ChuzzAdapter> parent, View v, int pos, long id)
+	{
+		error("Not implemented yet.");
 	}
 }
