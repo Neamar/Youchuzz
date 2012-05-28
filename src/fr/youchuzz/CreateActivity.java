@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -112,7 +113,10 @@ public class CreateActivity extends BaseActivity {
 
 				return true;
 			case R.id.menu_create_source_pick_photo:
-				//Pick by taking new picture
+				//Pick from camera
+				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempImagePath()));
+				startActivityForResult(cameraIntent, REQUEST_PHOTO);
 				return true;
 			default:
 				return super.onContextItemSelected(item);
@@ -139,6 +143,11 @@ public class CreateActivity extends BaseActivity {
 				//GET IMAGE FROM GALLERY / FILE BROWSER
 				selectedUri = data.getData();
 				content = new File(getPath(selectedUri));
+			}
+			else if(requestCode == REQUEST_PHOTO)
+			{
+				//GET IMAGE FROM CAMERA
+				content = getTempImagePath();
 			}
 			
 			if(content == null)
@@ -248,4 +257,12 @@ public class CreateActivity extends BaseActivity {
 		return cursor.getString(column_index);
 	}
 
+	private File getTempImagePath()
+	{
+		//it will return /sdcard/image.tmp  
+		final File path = new File( Environment.getExternalStorageDirectory(), this.getPackageName() );  
+		if(!path.exists())
+			path.mkdir();
+		return new File(path, "image.jpg");
+	}
 }
