@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -227,10 +229,30 @@ class APIWrapper<T> extends AjaxCallback<T>
 	}
 	
 	public void callback(String url, T json, AjaxStatus status) {
+		Log.v("yc_request", url);
+		
+		//Check for network error (or API failures)
 		if(json != null)
-		{
-			Log.v("yc_request", url);
 			Log.v("yc_result", json.toString());
+		else
+		{
+			Log.e("yc_result", "Network/api error : err. " + status.getCode());
+			Log.e("yc_result", status.getMessage());
+			Toast.makeText(((Activity)handler).getBaseContext(), status.getMessage(), Toast.LENGTH_LONG).show();
+		}
+		//Check for errors while using API
+		//Uses "error" key.
+		if(json instanceof JSONObject)
+		{
+			JSONObject ob = (JSONObject) json;
+			
+			try
+			{
+				String error = ob.getString("error");
+				Toast.makeText(((Activity)handler).getBaseContext(), error, Toast.LENGTH_LONG).show();
+				Log.e("yc_result", "ERROR: " + error);
+				json = null;
+			} catch (JSONException e) { }
 		}
 		
 		Class<?>[] AJAX_SIG = {String.class, type, AjaxStatus.class};

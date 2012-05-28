@@ -160,7 +160,6 @@ public class CreateActivity extends BaseActivity {
 		//Check for errors
 		if(json == null)
 		{
-			error("Error while sending content : err. " + status.getCode());
 			updateUi(currentlyPicking, PICKING);
 		}
 		else
