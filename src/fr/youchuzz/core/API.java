@@ -151,6 +151,7 @@ public class API {
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("content", content);
+		params.put("filename", content.getName());
 
 		aq.ajax(url, params, JSONObject.class, APIWrapper.createForObject(handler, callback));
 	}

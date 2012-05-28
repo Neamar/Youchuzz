@@ -134,6 +134,7 @@ public class CreateActivity extends BaseActivity {
 		{
 			File content = null;
 			Uri selectedUri = null;
+			
 			if (requestCode == REQUEST_IMAGE) {
 				//GET IMAGE FROM GALLERY / FILE BROWSER
 				selectedUri = data.getData();
