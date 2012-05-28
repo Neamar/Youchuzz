@@ -5,6 +5,7 @@ import java.io.File;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
@@ -66,6 +68,7 @@ public class CreateActivity extends BaseActivity {
 		aq = new AQuery(this);
 		
 		//Initialize ui, allow user to pick content
+		updateOrientation(getResources().getConfiguration());
 		updateUi(CONTENT_1, PICKING);
 		updateUi(CONTENT_2, PICKING);
 		
@@ -77,6 +80,28 @@ public class CreateActivity extends BaseActivity {
 		registerForContextMenu(aq.id(R.id.create_add_1).getView());
 		registerForContextMenu(aq.id(R.id.create_add_2).getView());
 	}
+	
+	/**
+	 * Handle rotation to display properly the layout.
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		
+		updateOrientation(newConfig);
+	}
+	
+	/**
+	 * Update the UI according to current orientation
+	 * @param config
+	 */
+	protected void updateOrientation(Configuration config)
+	{
+		((LinearLayout) findViewById(R.id.create_contents_layout))
+		.setOrientation(config.orientation==Configuration.ORIENTATION_PORTRAIT ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
+
+	}
+
 	
 	/**
 	 * Called when user press pick button

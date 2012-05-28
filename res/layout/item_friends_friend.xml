@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/friends_item_holder"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical" >
 
     <CheckBox
         android:id="@+id/friends_item_friend_check"
@@ -14,6 +15,8 @@
         android:id="@+id/friends_item_friend_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:scaleType="center"
         android:src="@drawable/friend_placeholder" />
 
     <TextView

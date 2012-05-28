@@ -20,6 +20,7 @@
 	<string name="create_pick_image">Select picture</string>
 	<string name="create_menu_image">Pictures</string>
 	<string name="create_menu_photo">Capture Picture</string>
+	<string name="create_ui_title">Chuzz\' title</string>
 	
 	<!-- Activity Friend -->
 	<string name="friends_loading">Loading your friends</string>
