@@ -46,6 +46,7 @@ public class LoginActivity extends BaseActivity {
 		long expires = mPrefs.getLong("access_expires", 0);
 		if(access_token != null) {
 			facebook.setAccessToken(access_token);
+			Log.i("yc", "Trying to reuse existing FB token...");
 		}
 		if(expires != 0) {
 			facebook.setAccessExpires(expires);
@@ -53,6 +54,7 @@ public class LoginActivity extends BaseActivity {
 		
 		if(facebook.isSessionValid())
 		{
+			Log.i("yc", "Reusing existing FB token.");
 			onFacebookLogged(facebook.getAccessToken());
 		}
 	}
@@ -74,7 +76,9 @@ public class LoginActivity extends BaseActivity {
 		Toast.makeText(getBaseContext(), "Logging", Toast.LENGTH_LONG).show();
 		//Avoid double click while loading
 		aq.id(R.id.login_facebook).invisible();
-		facebook.authorize(this, new DialogListener() {
+		
+		Log.i("yc", "Waiting for FB authorization.");
+		facebook.authorize(this, new String[] {}, Facebook.FORCE_DIALOG_AUTH, new DialogListener() {
 			@Override
 			public void onComplete(Bundle values) {
 				//Register token for future usage
@@ -115,6 +119,7 @@ public class LoginActivity extends BaseActivity {
 	 */
 	public void onFacebookLogged(String facebookToken)
 	{
+		Log.i("yc", "Logged onto FB.");
 		aq.id(R.id.login_facebook).invisible();
 		aq.id(R.id.login_step2).visible();
 		
@@ -151,7 +156,7 @@ public class LoginActivity extends BaseActivity {
 			//Remember session_id for all application life
 			API.getInstance().setSessionId(getString(json, "id_session"));
 			
-			Log.i("yc", "Logged in, session_id=" + getString(json, "id_session"));
+			Log.i("yc", "Logged into Youchuzz, session_id=" + getString(json, "id_session"));
 
 			//Start Home Activity
 			Intent myIntent = new Intent(this, HomeActivity.class);
