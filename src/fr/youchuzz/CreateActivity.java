@@ -145,9 +145,10 @@ public class CreateActivity extends BaseActivity {
 				error("Unable to load this content. Please use another source.");
 			}
 			{
-				API.getInstance().uploadContent(this, "onContentUploaded", content);
+				API.getInstance().uploadContent(this, "onContentUploaded", content, currentlyPicking);
 				
 				updateUi(currentlyPicking, UPLOADING);
+				currentlyPicking = 0;
 			}
 		}
 	}
@@ -157,28 +158,29 @@ public class CreateActivity extends BaseActivity {
 	 */
 	public void onContentUploaded(String url, JSONObject json, AjaxStatus status)
 	{
+		int contentNumber = Integer.parseInt(url.substring(url.length() - 1));
 		//Check for errors
 		if(json == null)
 		{
-			updateUi(currentlyPicking, PICKING);
+			updateUi(contentNumber, PICKING);
 		}
 		else
 		{
-			Log.i("yc", "Content saved, content_id=" + getString(json, "id_content"));
-			updateUi(currentlyPicking, PREVIEWING);
+			Log.i("yc", "Content saved, content_id=" + getString(json, "content_id"));
+			updateUi(contentNumber, PREVIEWING);
 			int id = 0;
-			if(currentlyPicking == CONTENT_1)
+			if(contentNumber == CONTENT_1)
 			{
 				id = R.id.create_image_1;
-				nextActivityIntent.putExtra("content1", getString(json, "id_content"));
+				nextActivityIntent.putExtra("content1", getString(json, "content_id"));
 			}
 			else
 			{
 				id = R.id.create_image_2;
-				nextActivityIntent.putExtra("content2", getString(json, "id_content"));
+				nextActivityIntent.putExtra("content2", getString(json, "content_id"));
 			}
 			
-			aq.id(id).image(getString(json, "content_preview"), true, true, 0, R.drawable.ic_menu_attachment);
+			aq.id(id).image(getString(json, "content_url"), true, true, 0, R.drawable.ic_menu_attachment);
 			
 			
 		}

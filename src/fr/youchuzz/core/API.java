@@ -18,6 +18,8 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.util.AQUtility;
 
+import fr.youchuzz.BaseActivity;
+
 /**
  * Communication avec l'API Youchuzz
  * @author neamar
@@ -102,7 +104,7 @@ public class API {
 	 * @param handler
 	 * @param callback as requested by AQuery
 	 */
-	public void login(String facebookToken, Object handler, String callback)
+	public void login(String facebookToken, BaseActivity handler, String callback)
 	{
 		String url = baseUrl + "/user/login_fb?fb_token=" + facebookToken;
 		
@@ -115,7 +117,7 @@ public class API {
 	 * @param handler
 	 * @param callback as requested by AQuery
 	 */
-	public void getChuzzs(Object handler, String callback)
+	public void getChuzzs(BaseActivity handler, String callback)
 	{
 		String url = buildUrl("/user/chuzzs", "");
 
@@ -128,7 +130,7 @@ public class API {
 	 * @param handler
 	 * @param callback as requested by AQuery
 	 */
-	public void getFriends(Object handler, String callback)
+	public void getFriends(BaseActivity handler, String callback)
 	{
 		String url = buildUrl("/user/friends", "");
 
@@ -141,10 +143,11 @@ public class API {
 	 * @param handler
 	 * @param callback as requested by AQuery
 	 * @param content file to be uploaded
+	 * @param content_number will this be content 1 or content 2 ?
 	 */
-	public void uploadContent(Object handler, String callback, File content)
+	public void uploadContent(BaseActivity handler, String callback, File content, int content_number)
 	{
-		String url = buildUrl("/chuzz/add_content", "");
+		String url = buildUrl("/chuzz/add_content", "content=" + content_number);
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("content", content);
@@ -161,7 +164,7 @@ public class API {
 	 * @param contents id-list for the contents, as returned by uploadContent
 	 * @param friends id-list for the friends, as returned by getFriends
 	 */
-	public void createChuzz(Object handler, String callback, String title, ArrayList<String> contents, ArrayList<Integer> friends)
+	public void createChuzz(BaseActivity handler, String callback, String title, ArrayList<String> contents, ArrayList<Integer> friends)
 	{
 		String url = buildUrl("/chuzz/create", "");
 
@@ -185,7 +188,7 @@ public class API {
 		if(getParams.length() > 0)
 			getParams = "&" + getParams;
 
-		return baseUrl + url + "?id_session=" + sessionId + "&" + getParams;
+		return baseUrl + url + "?id_session=" + sessionId + getParams;
 	}
 
 }
@@ -202,10 +205,10 @@ public class API {
 class APIWrapper<T> extends AjaxCallback<T>
 {
 	private Class<T> type;
-	private Object handler;
+	private BaseActivity handler;
 	private String callback;
 	
-	public static APIWrapper<JSONArray> createForArray(Object handler, String callback)
+	public static APIWrapper<JSONArray> createForArray(BaseActivity handler, String callback)
 	{
 		APIWrapper<JSONArray> wrapper = new APIWrapper<JSONArray>();
 		wrapper.setHandler(JSONArray.class, handler, callback);
@@ -213,7 +216,7 @@ class APIWrapper<T> extends AjaxCallback<T>
 		return wrapper;
 	}
 	
-	public static APIWrapper<JSONObject> createForObject(Object handler, String callback)
+	public static APIWrapper<JSONObject> createForObject(BaseActivity handler, String callback)
 	{
 		APIWrapper<JSONObject> wrapper = new APIWrapper<JSONObject>();
 		wrapper.setHandler(JSONObject.class, handler, callback);
@@ -221,7 +224,7 @@ class APIWrapper<T> extends AjaxCallback<T>
 		return wrapper;
 	}
 	
-	public void setHandler(Class<T> type, Object handler, String callback)
+	public void setHandler(Class<T> type, BaseActivity handler, String callback)
 	{
 		this.type = type;
 		this.handler = handler;
@@ -237,9 +240,9 @@ class APIWrapper<T> extends AjaxCallback<T>
 		else
 		{
 			Log.e("yc_result", "Network/api error : err. " + status.getCode());
-			Log.e("yc_result", status.getMessage());
-			Toast.makeText(((Activity)handler).getBaseContext(), status.getMessage(), Toast.LENGTH_LONG).show();
+			handler.error(status.getMessage());
 		}
+		
 		//Check for errors while using API
 		//Uses "error" key.
 		if(json instanceof JSONObject)
@@ -249,8 +252,8 @@ class APIWrapper<T> extends AjaxCallback<T>
 			try
 			{
 				String error = ob.getString("error");
-				Toast.makeText(((Activity)handler).getBaseContext(), error, Toast.LENGTH_LONG).show();
-				Log.e("yc_result", "ERROR: " + error);
+				handler.error(error);
+				Log.e("yc_result", "Error: " + error + ". Handler: " + handler.toString() + ". Callback: " + callback);
 				json = null;
 			} catch (JSONException e) { }
 		}

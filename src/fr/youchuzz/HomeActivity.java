@@ -58,11 +58,7 @@ public class HomeActivity extends BaseActivity {
 	public void onChuzzsLoaded(String url, JSONArray json, AjaxStatus status)
 	{
 		endModalLoad();
-		if(json == null)
-		{
-			error("Error while getting chuzzs list : err. " + status.getCode());
-		}
-		else
+		if(json != null)
 		{
 			ArrayList<Chuzz> chuzzsList = new ArrayList<Chuzz>();
 			

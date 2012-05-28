@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity {
 	 */
 	public void onFacebookButtonClicked(View v)
 	{
-		Toast.makeText(getBaseContext(), "Logging", Toast.LENGTH_LONG).show();
+		Toast.makeText(getBaseContext(), "Logging in...", Toast.LENGTH_LONG).show();
 		//Avoid double click while loading
 		aq.id(R.id.login_facebook).invisible();
 		
@@ -141,8 +141,6 @@ public class LoginActivity extends BaseActivity {
 		//Check for errors
 		if(json == null)
 		{
-			error("Error while logging in : err. " + status.getCode());
-
 			//Remove all tokens, in case it has been corrupted.
 			SharedPreferences.Editor editor = mPrefs.edit();
 			editor.putString("access_token", "(old)");

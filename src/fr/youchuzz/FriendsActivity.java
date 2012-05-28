@@ -151,18 +151,14 @@ public class FriendsActivity extends BaseActivity {
 			}
 		}
 		
-		API.getInstance().createChuzz(this, "onChuzzCreated", "Essai chuzz", contents, friends);
+		API.getInstance().createChuzz(this, "onChuzzCreated", callingIntent.getStringExtra("title"), contents, friends);
 
 	}
 
 	public void onChuzzCreated(String url, JSONObject json, AjaxStatus status)
 	{
 		//Check for errors
-		if(json == null)
-		{
-			error("Error while posting chuzz : err. " + status.getCode());
-		}
-		else
+		if(json != null)
 		{
 			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
 			

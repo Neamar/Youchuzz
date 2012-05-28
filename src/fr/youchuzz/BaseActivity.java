@@ -11,6 +11,17 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 
+/**
+ * BaseActivity offers a few helper functions :
+ * - AQuery object
+ * - error() primitive for toast and log
+ * - getString() and getInt() for JSON access without Exception garbling
+ * - modalLoad() / endModalLoad() to display spinner while loading.
+ * 
+ * Remove dalvikvm tag : "(?!dalvikvm\b)\b\w+"
+ * @author neamar
+ *
+ */
 public class BaseActivity extends Activity {
 	protected AQuery aq;
 	protected ProgressDialog progressDialog = null;
@@ -74,7 +85,7 @@ public class BaseActivity extends Activity {
 	 * Called when json returns is null, indicating a problem in data transfer.
 	 * @param msg msg to display as a toast and to log.
 	 */
-	protected void error(String msg)
+	public void error(String msg)
 	{
 		Log.e("yc", msg);
 		Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
