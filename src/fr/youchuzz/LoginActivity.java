@@ -21,7 +21,6 @@ import com.facebook.android.FacebookError;
 import fr.youchuzz.core.API;
 
 public class LoginActivity extends BaseActivity {
-	private Facebook facebook = new Facebook("297600333614254");
 	private SharedPreferences mPrefs;
 	
 	/** Called when the activity is first created. */

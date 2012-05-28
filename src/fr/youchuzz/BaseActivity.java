@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.facebook.android.Facebook;
 
 /**
  * BaseActivity offers a few helper functions :
@@ -23,6 +24,7 @@ import com.androidquery.AQuery;
  *
  */
 public class BaseActivity extends Activity {
+	protected Facebook facebook = new Facebook("297600333614254");
 	protected AQuery aq;
 	protected ProgressDialog progressDialog = null;
 	
@@ -30,6 +32,14 @@ public class BaseActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		if(facebook.isSessionValid())
+			facebook.extendAccessTokenIfNeeded(this, null);
 	}
 	
 	public String getString(JSONObject json, String key)
