@@ -38,7 +38,7 @@ public class FriendsActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		setTitle(R.string.friends_title);
 		
 		callingIntent = getIntent();
 		if(!callingIntent.hasExtra("title"))

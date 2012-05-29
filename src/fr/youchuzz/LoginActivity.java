@@ -27,6 +27,7 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle(R.string.login_title);
 		
 		//Initialize API object for all future access.
 		API.init(this);
@@ -118,6 +119,7 @@ public class LoginActivity extends BaseActivity {
 	 */
 	public void onFacebookLogged(String facebookToken)
 	{
+		load();
 		Log.i("yc", "Logged onto FB.");
 		aq.id(R.id.login_facebook).invisible();
 		aq.id(R.id.login_step2).visible();
@@ -150,6 +152,8 @@ public class LoginActivity extends BaseActivity {
 		}
 		else
 		{
+			endLoad();
+			
 			//Remember session_id for all application life
 			API.getInstance().setSessionId(getString(json, "id_session"));
 			

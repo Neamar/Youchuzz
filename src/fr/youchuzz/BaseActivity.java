@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -32,14 +33,7 @@ public class BaseActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		
-		if(facebook.isSessionValid())
-			facebook.extendAccessTokenIfNeeded(this, null);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 	}
 	
 	public String getString(JSONObject json, String key)
@@ -64,8 +58,20 @@ public class BaseActivity extends Activity {
 		return -1;
 	}
 	
+	protected void load()
+	{
+		setProgressBarIndeterminateVisibility(true);
+	}
+	
+	protected void endLoad()
+	{
+		setProgressBarIndeterminateVisibility(false);
+	}
+	
 	/**
 	 * Display a spinner while loading content.
+	 * 
+	 * @deprecated use load
 	 */
 	protected void modalLoad(String title, String msg)
 	{
@@ -78,6 +84,8 @@ public class BaseActivity extends Activity {
 	
 	/**
 	 * Hide spinned displayed using modalLoad
+	 * 
+	 * @deprecated use endLoad
 	 */
 	protected void endModalLoad()
 	{

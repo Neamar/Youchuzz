@@ -27,18 +27,19 @@ public class HomeActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle(R.string.home_title);
 		setContentView(R.layout.activity_home);
 		API.updateActivity(this);
 		
 		aq = new AQuery(this);
-		aq.id(R.id.home_presentation).gone();
-		aq.id(R.id.home_create).clicked(this, "onCreate");
+		aq.id(R.id.home_chuzzs).gone();
+		aq.id(R.id.home_presentation).height(ViewGroup.LayoutParams.FILL_PARENT);
 		
-		aq.id(R.id.home_chuzzs).itemClicked(this, "onItemClicked");
+		aq.id(R.id.home_create).clicked(this, "onCreate");
 		
 		API.getInstance().getChuzzs(this, "onChuzzsLoaded");
 	
-		modalLoad("", getString(R.string.home_loading));
+		load();
 	}
 	
 	/**
@@ -59,21 +60,17 @@ public class HomeActivity extends BaseActivity {
 	 */
 	public void onChuzzsLoaded(String url, JSONArray json, AjaxStatus status)
 	{
-		endModalLoad();
+		endLoad();
 		if(json != null)
 		{
 			ArrayList<Chuzz> chuzzsList = new ArrayList<Chuzz>();
 			
-			if(json.length() == 0)
-			{
-				Log.i("yc", "User never used Youchuzz. Displaying help");
-				aq.id(R.id.home_chuzzs).gone();
-				aq.id(R.id.home_presentation).visible();
-				aq.id(R.id.home_presentation).height(ViewGroup.LayoutParams.FILL_PARENT);
-			}
-			else
+			if(json.length() > 0)
 			{
 				Log.i("yc", "Retrieved " + Integer.toString(json.length()) + " chuzz(s).");
+				aq.id(R.id.home_chuzzs).itemClicked(this, "onItemClicked");
+				aq.id(R.id.home_chuzzs).visible();
+				aq.id(R.id.home_presentation).gone();
 				for(int i = 0; i < json.length(); i++)
 				{
 					JSONObject jsonChuzz = new JSONObject();

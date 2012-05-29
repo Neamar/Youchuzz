@@ -60,6 +60,7 @@ public class CreateActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		API.updateActivity(this);
 		super.onCreate(savedInstanceState);
+		setTitle(R.string.create_title);
 		
 		setContentView(R.layout.activity_create);
 		
