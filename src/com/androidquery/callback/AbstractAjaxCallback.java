@@ -903,7 +903,7 @@ public abstract class AbstractAjaxCallback<T, K> implements Runnable{
 		}
 		
 		if(result == null && data != null){
-			status.code(AjaxStatus.TRANSFORM_ERROR).message("transform error");			
+			status.code(AjaxStatus.TRANSFORM_ERROR).message("transform error: " + new String(data));			
 		}
 		
 		lastStatus = status.getCode();
