@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,7 +22,6 @@ import com.androidquery.callback.AjaxStatus;
 import fr.youchuzz.core.API;
 import fr.youchuzz.core.Chuzz;
 import fr.youchuzz.core.ChuzzAdapter;
-import fr.youchuzz.core.FriendAdapter;
 
 public class HomeActivity extends BaseActivity {
 	/** Called when the activity is first created. */
@@ -35,7 +36,7 @@ public class HomeActivity extends BaseActivity {
 		aq.id(R.id.home_chuzzs).gone();
 		aq.id(R.id.home_presentation).height(ViewGroup.LayoutParams.FILL_PARENT);
 		
-		aq.id(R.id.home_create).clicked(this, "onCreate");
+		aq.id(R.id.home_create).clicked(this, "onCreateChuzz");
 		
 		API.getInstance().getChuzzs(this, "onChuzzsLoaded");
 	
@@ -46,10 +47,22 @@ public class HomeActivity extends BaseActivity {
 	 * Create new chuzz
 	 * @param v
 	 */
-	public void onCreate(View v)
+	public void onCreateChuzz(View v)
 	{
 		Intent myIntent = new Intent(v.getContext(), CreateActivity.class);
 		startActivity(myIntent);
+	}
+	
+	/**
+	 * Gestion des menus standards, inflaté de res/menu/base.xml
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		//Récupérer le menu de base défini en XML
+		/*MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_home, menu);*/
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	/**

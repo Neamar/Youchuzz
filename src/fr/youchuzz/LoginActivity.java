@@ -1,7 +1,5 @@
 package fr.youchuzz;
 
-import java.util.ArrayList;
-
 import org.json.JSONObject;
 
 import android.content.Intent;
