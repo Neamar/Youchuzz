@@ -10,6 +10,7 @@
 	<string name="login_facebook_clicked_cancel">You need to allow Facebook in order to use Youchuzz</string>
 	
 	<!-- Activity Home -->
+	<string name="home_create">Create new chuzz</string>
 	<string name="home_loading">Loading your chuzzs</string>
 	<string name="home_item_vote">vote</string>
 	<string name="home_ui_item_title">{{ title }}</string>
@@ -21,9 +22,11 @@
 	<string name="create_menu_image">Pictures</string>
 	<string name="create_menu_photo">Capture Picture</string>
 	<string name="create_ui_title">Chuzz\' title</string>
+	<string name="create_ui_save">Save</string>
 	
 	<!-- Activity Friend -->
 	<string name="friends_loading">Loading your friends</string>
 	<string name="friends_ui_wall">Publish on my wall</string>
+	<string name="friends_ui_save">Send my chuzz</string>
 	<string name="friends_ui_item_name">{{ name }}</string>
 </resources>

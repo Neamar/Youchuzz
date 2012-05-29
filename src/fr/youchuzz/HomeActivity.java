@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -30,6 +31,7 @@ public class HomeActivity extends BaseActivity {
 		API.updateActivity(this);
 		
 		aq = new AQuery(this);
+		aq.id(R.id.home_presentation).gone();
 		aq.id(R.id.home_create).clicked(this, "onCreate");
 		
 		aq.id(R.id.home_chuzzs).itemClicked(this, "onItemClicked");
@@ -62,28 +64,38 @@ public class HomeActivity extends BaseActivity {
 		{
 			ArrayList<Chuzz> chuzzsList = new ArrayList<Chuzz>();
 			
-			Log.i("yc", "Retrieved " + Integer.toString(json.length()) + " chuzz(s).");
-			for(int i = 0; i < json.length(); i++)
+			if(json.length() == 0)
 			{
-				JSONObject jsonChuzz = new JSONObject();
-				try {
-					jsonChuzz = json.getJSONObject(i);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				Chuzz chuzz = new Chuzz();
-				chuzz.id = getInt(jsonChuzz, "chuzz_id");
-				chuzz.title = getString(jsonChuzz, "title");
-				chuzz.nbVoters = getInt(jsonChuzz, "voters");
-				chuzz.creationDate = getString(jsonChuzz, "creation");
-				chuzz.imageUrl = getString(jsonChuzz, "img");
-
-				chuzzsList.add(chuzz);
+				Log.i("yc", "User never used Youchuzz. Displaying help");
+				aq.id(R.id.home_chuzzs).gone();
+				aq.id(R.id.home_presentation).visible();
+				aq.id(R.id.home_presentation).height(ViewGroup.LayoutParams.FILL_PARENT);
 			}
+			else
+			{
+				Log.i("yc", "Retrieved " + Integer.toString(json.length()) + " chuzz(s).");
+				for(int i = 0; i < json.length(); i++)
+				{
+					JSONObject jsonChuzz = new JSONObject();
+					try {
+						jsonChuzz = json.getJSONObject(i);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					Chuzz chuzz = new Chuzz();
+					chuzz.id = getInt(jsonChuzz, "chuzz_id");
+					chuzz.title = getString(jsonChuzz, "title");
+					chuzz.nbVoters = getInt(jsonChuzz, "voters");
+					chuzz.creationDate = getString(jsonChuzz, "creation");
+					chuzz.imageUrl = getString(jsonChuzz, "img");
 	
-			ListView lv = (ListView) findViewById(R.id.home_chuzzs);
-			ChuzzAdapter adapter = new ChuzzAdapter(this, R.layout.item_home_chuzz, chuzzsList);
-			lv.setAdapter(adapter);
+					chuzzsList.add(chuzz);
+				}
+		
+				ListView lv = (ListView) findViewById(R.id.home_chuzzs);
+				ChuzzAdapter adapter = new ChuzzAdapter(this, R.layout.item_home_chuzz, chuzzsList);
+				lv.setAdapter(adapter);
+			}
 		}
 	}
 	

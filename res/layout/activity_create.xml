@@ -82,6 +82,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Enregistrer" />
+        android:text="@string/create_ui_save" />
 
 </RelativeLayout>
