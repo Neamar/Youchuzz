@@ -43,4 +43,9 @@ public class ChuzzAdapter extends ArrayAdapter<Chuzz> {
 		
 		return v;
 	}
+	
+	public Chuzz getChuzz(int pos)
+	{
+		return items.get(pos);
+	}
 }

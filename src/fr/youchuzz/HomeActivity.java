@@ -81,7 +81,7 @@ public class HomeActivity extends BaseActivity {
 			if(json.length() > 0)
 			{
 				Log.i("yc", "Retrieved " + Integer.toString(json.length()) + " chuzz(s).");
-				aq.id(R.id.home_chuzzs).itemClicked(this, "onItemClicked");
+				aq.id(R.id.home_chuzzs).itemClicked(this, "onChuzzClicked");
 				aq.id(R.id.home_chuzzs).visible();
 				aq.id(R.id.home_presentation).gone();
 				for(int i = 0; i < json.length(); i++)
@@ -109,8 +109,15 @@ public class HomeActivity extends BaseActivity {
 		}
 	}
 	
-	public void onItemClicked(AdapterView<ChuzzAdapter> parent, View v, int pos, long id)
+	public void onChuzzClicked(AdapterView<ChuzzAdapter> parent, View v, int pos, long id)
 	{
-		error("Not implemented yet.");
+		Chuzz selectedChuzz = parent.getAdapter().getChuzz(pos);
+		Intent chuzzIntent = new Intent(this, ChuzzActivity.class);
+		chuzzIntent.putExtra("id", selectedChuzz.id);
+		chuzzIntent.putExtra("title", selectedChuzz.title);
+		error(selectedChuzz.title);
+		startActivity(chuzzIntent);
+		
+		error("GOO");
 	}
 }

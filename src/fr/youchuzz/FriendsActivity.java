@@ -112,7 +112,7 @@ public class FriendsActivity extends BaseActivity {
 	}
 	
 	/**
-	 * Called whend a friend is clicked for selection / deselection
+	 * Called when a friend is clicked for selection / deselection
 	 * @param parent
 	 * @param v
 	 * @param pos

@@ -28,8 +28,8 @@
             android:name=".CreateActivity"
             android:configChanges="keyboardHidden|orientation" >
         </activity>
-        <activity android:name=".FriendsActivity" >
-        </activity>
+        <activity android:name=".FriendsActivity" />
+        <activity android:name=".ChuzzActivity" />
     </application>
 
 </manifest>
