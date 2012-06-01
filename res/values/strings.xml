@@ -36,6 +36,6 @@
 	<string name="friends_ui_item_name">{{ name }}</string>
 	
 	<!-- Activity Chuzz -->
-	<string name="chuzz_ui_comments">Comentaires →</string>
+	<string name="chuzz_ui_comments">Commentaires →</string>
 	<string name="chuzz_ui_details">{{ details }}</string>
 </resources>

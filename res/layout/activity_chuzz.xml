@@ -5,17 +5,21 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/chuzz_content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_weight="0.35"
         android:gravity="center"
         android:orientation="vertical" >
 
-        <ImageButton
-            android:id="@+id/imageButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home_create" />
+        <include
+            android:id="@+id/chuzz_content1"
+            android:layout_weight="0.69"
+            layout="@layout/item_chuzz_content" />
+
+        <include
+            android:id="@+id/chuzz_content2"
+            layout="@layout/item_chuzz_content" />
     </LinearLayout>
 
     <LinearLayout

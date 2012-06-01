@@ -177,6 +177,21 @@ public class API {
 		aq.ajax(url, params, JSONObject.class, APIWrapper.createForObject(handler, callback));
 	}
 	
+	/**
+	 * List all friends for selected user
+	 * 
+	 * @param handler
+	 * @param callback as requested by AQuery
+	 */
+	public void getChuzz(BaseActivity handler, String callback, int chuzzId)
+	{
+		String url = buildUrl("/chuzz/vote", "");
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("chuzz_id", chuzzId);
+		
+		aq.ajax(url, params, JSONObject.class, APIWrapper.createForObject(handler, callback));
+	}
+	
 	
 	/**
 	 * Build an API-URL
@@ -191,6 +206,8 @@ public class API {
 
 		return baseUrl + url + "?id_session=" + sessionId + getParams;
 	}
+	
+	
 
 }
 

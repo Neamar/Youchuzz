@@ -17,11 +17,6 @@
             android:name=".LoginActivity"
             android:label="@string/app_name"
             android:noHistory="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
         <activity
@@ -29,7 +24,13 @@
             android:configChanges="keyboardHidden|orientation" >
         </activity>
         <activity android:name=".FriendsActivity" />
-        <activity android:name=".ChuzzActivity" />
+        <activity android:name=".ChuzzActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
