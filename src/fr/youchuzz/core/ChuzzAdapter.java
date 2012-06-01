@@ -36,8 +36,11 @@ public class ChuzzAdapter extends ArrayAdapter<Chuzz> {
 			aq.recycle(v);
 			aq.id(R.id.home_item_title).text(c.title);
 			aq.id(R.id.home_item_desc).text(c.getDesc());
-			//aq.id(R.id.home_item_img).image(c.imageUrl, true, true, 0, R.drawable.ic_menu_attachment);
+			aq.id(R.id.home_item_img).image(c.imageUrl, true, true, 0, R.drawable.ic_menu_attachment);
 		}
+		
+		v.setMinimumHeight(50);
+		
 		return v;
 	}
 }

@@ -161,11 +161,10 @@ public class FriendsActivity extends BaseActivity {
 		{
 			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
 			
-			error("CE CHUZZ A ÉTÉ CRÉÉ !");
-			
 			//TODO : display chuzz
-			Intent myIntent = new Intent(this, HomeActivity.class);
-			startActivity(myIntent);
+			Intent i = new Intent(this, HomeActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(i);
 		}
 	}
 }
