@@ -125,10 +125,13 @@ public class ChuzzActivity extends BaseActivity {
 					((TextView) localAq.id(R.id.chuzz_item_chuzz_desc).getView()).setShadowLayer(4, 0, 0, Color.BLACK);
 				}
 				
-				localAq.recycle(aq.id(CONTENTS_ID[maxVotesId]).getView());
-				localAq.id(R.id.chuzz_item_chuzz_desc).backgroundColor(Color.GREEN);
+				if(maxVotes > 0)
+				{
+					localAq.recycle(aq.id(CONTENTS_ID[maxVotesId]).getView());
+					localAq.id(R.id.chuzz_item_chuzz_desc).backgroundColor(Color.GREEN);
+				}
 				
-				aq.id(R.id.chuzz_details).text(chuzz.getDesc(this));
+				aq.id(R.id.chuzz_details).text(chuzz.getShortDesc(this));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

@@ -27,13 +27,17 @@ public class Chuzz {
 	 */
 	public JSONObject json;
 	
-	public String getDesc(Context c)
+	public String getShortDesc(Context c)
 	{
 		String template = c.getString(R.string.home_ui_item_desc);
-		template = template
+		return template
 				.replace("{{vs}}", nbVoters>1?"s":"")
-				.replace("{{v}}", Integer.toString(nbVoters))
+				.replace("{{v}}", Integer.toString(nbVoters));
+	}
+	public String getDesc(Context c)
+	{
+		String template = getShortDesc(c) + c.getString(R.string.home_ui_item_desc_long);
+		return template
 				.replace("{{d}}", creationDate);
-		return template;
 	}
 }

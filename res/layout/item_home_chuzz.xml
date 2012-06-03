@@ -9,7 +9,7 @@
         android:id="@+id/home_item_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="50dip"
+        android:minHeight="100dip"
         android:contentDescription="@string/home_ui_item_img"
         android:src="@drawable/temp_chuzz_image" />
 

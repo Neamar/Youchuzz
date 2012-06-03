@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
@@ -56,8 +57,6 @@ public class FriendsActivity extends BaseActivity {
 		
 		aq.id(R.id.friends_list).itemClicked(this, "onItemClicked");
 		
-		aq.id(R.id.friends_publish_wall).clicked(this, "onWallClicked");
-		
 		aq.id(R.id.friends_send).clicked(this, "onSend");
 	}
 	
@@ -98,19 +97,6 @@ public class FriendsActivity extends BaseActivity {
 		}
 	}
 	
-	public void onWallClicked(View v)
-	{
-		//TODO: select all items in list ?
-		if(aq.id(R.id.friends_publish_wall).isChecked())
-		{
-			aq.id(R.id.friends_list).gone();
-		}
-		else
-		{
-			aq.id(R.id.friends_list).visible();
-		}
-	}
-	
 	/**
 	 * Called when a friend is clicked for selection / deselection
 	 * @param parent
@@ -137,20 +123,18 @@ public class FriendsActivity extends BaseActivity {
 		contents.add(callingIntent.getStringExtra("content1"));
 		contents.add(callingIntent.getStringExtra("content2"));
 		
-		if(aq.id(R.id.friends_publish_wall).isChecked())
-			friends.add(-1);
-		else
+		FriendAdapter list = (FriendAdapter) ((ListView) findViewById(R.id.friends_list)).getAdapter();
+		
+		for(int i = 0; i < list.getCount(); i++)
 		{
-			FriendAdapter list = (FriendAdapter) ((ListView) findViewById(R.id.friends_list)).getAdapter();
-			
-			for(int i = 0; i < list.getCount(); i++)
-			{
-				if(list.getFriend(i).selected)
-					friends.add(list.getFriend(i).id);
-			}
+			if(list.getFriend(i).selected)
+				friends.add(list.getFriend(i).id);
 		}
 		
-		API.getInstance().createChuzz(this, "onChuzzCreated", callingIntent.getStringExtra("title"), contents, friends);
+		if(friends.size() == 0)
+			error(getString(R.string.friends_error_none_selected));
+		else
+			API.getInstance().createChuzz(this, "onChuzzCreated", callingIntent.getStringExtra("title"), contents, friends);
 
 	}
 
@@ -160,11 +144,14 @@ public class FriendsActivity extends BaseActivity {
 		if(json != null)
 		{
 			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
+			Toast.makeText(this, getString(R.string.friends_creation_success), Toast.LENGTH_SHORT);
 			
 			//TODO : display chuzz
-			Intent i = new Intent(this, HomeActivity.class);
-			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(i);
+			Intent chuzzIntent = new Intent(this, ChuzzActivity.class);
+			chuzzIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			chuzzIntent.putExtra("title", callingIntent.getStringExtra("title"));
+			chuzzIntent.putExtra("id", getInt(json, "chuzz_id"));
+			startActivity(chuzzIntent);
 		}
 	}
 }

@@ -17,7 +17,8 @@
 	<string name="home_item_vote">vote</string>
 	<string name="home_ui_description">Send two pictures to choose between, and ask your friends for their opinion.</string>
 	<string name="home_ui_item_title">{{ title }}</string>
-	<string name="home_ui_item_desc">{{v}} vote{{vs}}, created on {{d}}</string>
+	<string name="home_ui_item_desc">{{v}} vote{{vs}}</string>
+	<string name="home_ui_item_desc_long">, created {{d}}</string>
 	<string name="home_ui_item_img">Image</string>
 	<string name="home_menu_logout">Logout</string>
 
@@ -38,6 +39,8 @@
 	<string name="friends_ui_save">Send my chuzz</string>
 	<string name="friends_ui_item_name">{{ name }}</string>
 	<string name="friends_ui_item_avatar">Friend image</string>
+	<string name="friends_error_none_selected">Select at least one friend.</string>
+	<string name="friends_creation_success">Your friends have been notified.</string>
 	
 	<!-- Activity Chuzz -->
 	<string name="chuzz_ui_comments">Commentaires →</string>
