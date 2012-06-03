@@ -5,24 +5,6 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/chuzz_content_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.35"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <include
-            android:id="@+id/chuzz_content1"
-            android:layout_weight="0.69"
-            layout="@layout/item_chuzz_content" />
-
-        <include
-            android:id="@+id/chuzz_content2"
-            layout="@layout/item_chuzz_content" />
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -39,6 +21,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chuzz_ui_comments" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chuzz_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.35"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/chuzz_content1"
+            android:layout_weight="0.69"
+            layout="@layout/item_chuzz_content" />
+
+        <include
+            android:id="@+id/chuzz_content2"
+            layout="@layout/item_chuzz_content" />
     </LinearLayout>
 
 </LinearLayout>

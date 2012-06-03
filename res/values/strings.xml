@@ -38,4 +38,7 @@
 	<!-- Activity Chuzz -->
 	<string name="chuzz_ui_comments">Commentaires →</string>
 	<string name="chuzz_ui_details">{{ details }}</string>
+	
+	<!-- Activity Comment -->
+	<string name="comment_ui_chuzz">← Chuzz</string>
 </resources>

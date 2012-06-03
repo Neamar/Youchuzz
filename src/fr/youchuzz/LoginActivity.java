@@ -175,8 +175,8 @@ public class LoginActivity extends BaseActivity {
 			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
 			
 			Toast.makeText(getApplicationContext(), "CE CHUZZ A ÉTÉ CRÉÉ !", Toast.LENGTH_LONG);
-			Intent myIntent = new Intent(this, HomeActivity.class);
-			startActivity(myIntent);
+			Intent homeIntent = new Intent(this, HomeActivity.class);
+			startActivity(homeIntent);
 		}
 	}
 }

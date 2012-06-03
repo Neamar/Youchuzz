@@ -30,17 +30,9 @@ import fr.youchuzz.core.API;
 import fr.youchuzz.core.Chuzz;
 
 /**
- * Create a new chuzz.
+ * Display chuzz details.
+ * Uses an intent with two keys, "title" (string) and "id" (int).
  * 
- * Ask the user to choose a title and to pick two contents from his phone.
- * 
- * Typical workflow :
- * - onCreate, then you click on a content picker :
- * - onPickContent, then you choose content type from the dialog leading you to
- * - onContextItemSelected, then you pick content using whatever method you asked, returning to
- * - onActivityResult, which will start upload and then call
- * - onContentUploaded. Once you've done that twice, you may call
- * - onSave, which will display friend list before saving.
  * @author neamar
  *
  */
@@ -52,7 +44,7 @@ public class ChuzzActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		//TODO : recycle activity
 		API.init(this);
-		API.getInstance().setSessionId("1338567801684ce76c3b182fb02f58db6998d47fa37d69a466");
+		API.getInstance().setSessionId("1338712110b26a3b40f2f02f4932b88569c6fa1ac20389680d");
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_chuzz);
@@ -77,6 +69,8 @@ public class ChuzzActivity extends BaseActivity {
 			{
 				aq.id(CONTENTS_ID[i]).gone();
 			}
+			
+			aq.id(R.id.chuzz_comments).clicked(this, "onCommentsClicked");
 		//}
 	}
 	
@@ -118,5 +112,18 @@ public class ChuzzActivity extends BaseActivity {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void onCommentsClicked(View v)
+	{
+		Intent commentIntent = new Intent(this, CommentActivity.class);
+		//Copy initial intent
+		commentIntent.putExtra("id", getIntent().getIntExtra("id", -1));
+		commentIntent.putExtra("title", getIntent().getStringExtra("title"));
+		//Add details
+		
+		commentIntent.putExtra("details", aq.id(R.id.chuzz_details).getText());
+		
+		startActivity(commentIntent);
 	}
 }
