@@ -144,14 +144,13 @@ public class FriendsActivity extends BaseActivity {
 		if(json != null)
 		{
 			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
-			Toast.makeText(this, getString(R.string.friends_creation_success), Toast.LENGTH_SHORT);
+			Toast.makeText(this, getString(R.string.friends_toast_success), Toast.LENGTH_SHORT).show();
 			
-			//TODO : display chuzz
-			Intent chuzzIntent = new Intent(this, ChuzzActivity.class);
-			chuzzIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			chuzzIntent.putExtra("title", callingIntent.getStringExtra("title"));
-			chuzzIntent.putExtra("id", getInt(json, "chuzz_id"));
-			startActivity(chuzzIntent);
+			Intent homeIntent = new Intent(this, HomeActivity.class);
+			homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			homeIntent.putExtra("redirectTo", getInt(json, "chuzz_id"));
+			startActivity(homeIntent);
+			finish();
 		}
 	}
 }

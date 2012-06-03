@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
@@ -181,6 +182,8 @@ public class CreateActivity extends BaseActivity {
 				error("Unable to load this content. Please use another source.");
 			}
 			{
+				if(content.length() > 100000)
+					Toast.makeText(this, getString(R.string.create_toast_uploading), Toast.LENGTH_SHORT).show();
 				API.getInstance().uploadContent(this, "onContentUploaded", content, currentlyPicking);
 				
 				updateUi(currentlyPicking, UPLOADING);

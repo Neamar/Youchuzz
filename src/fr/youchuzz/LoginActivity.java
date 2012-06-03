@@ -76,7 +76,7 @@ public class LoginActivity extends BaseActivity {
 		aq.id(R.id.login_facebook).invisible();
 		
 		Log.i("yc", "Waiting for FB authorization.");
-		facebook.authorize(this, new String[] {}, Facebook.FORCE_DIALOG_AUTH, new DialogListener() {
+		facebook.authorize(this, new DialogListener() {
 			@Override
 			public void onComplete(Bundle values) {
 				//Register token for future usage
@@ -103,6 +103,7 @@ public class LoginActivity extends BaseActivity {
 			
 			@Override
 			public void onCancel() {
+				Log.e("yc", "CANCER");
 				Toast.makeText(getBaseContext(), R.string.login_facebook_clicked_cancel, Toast.LENGTH_LONG).show();
 				aq.id(R.id.login_facebook).visible();
 			}
@@ -160,23 +161,7 @@ public class LoginActivity extends BaseActivity {
 			//Start Home Activity
 			Intent myIntent = new Intent(this, HomeActivity.class);
 			startActivity(myIntent);
-		}
-	}
-	
-	public void onChuzzCreated(String url, JSONObject json, AjaxStatus status)
-	{
-		//Check for errors
-		if(json == null)
-		{
-			error("Error while posting chuzz : err. " + status.getCode());
-		}
-		else
-		{
-			Log.i("yc", "New chuzz created with id " + getString(json, "chuzz_id"));
-			
-			Toast.makeText(getApplicationContext(), "CE CHUZZ A ÉTÉ CRÉÉ !", Toast.LENGTH_LONG);
-			Intent homeIntent = new Intent(this, HomeActivity.class);
-			startActivity(homeIntent);
+			finish();
 		}
 	}
 }

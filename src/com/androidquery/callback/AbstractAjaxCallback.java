@@ -36,6 +36,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -55,6 +58,7 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.scheme.SocketFactory;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
@@ -1126,8 +1130,15 @@ public abstract class AbstractAjaxCallback<T, K> implements Runnable{
 			HttpConnectionParams.setSocketBufferSize(httpParams, 8192);
 			
 			SchemeRegistry registry = new SchemeRegistry();
+			SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+
+			//Force HTTPs.
+			//HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+			//socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+			//HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+			
 			registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-			registry.register(new Scheme("https", ssf == null ? SSLSocketFactory.getSocketFactory() : ssf, 443));
+			registry.register(new Scheme("https", socketFactory, 443));
 			
 			ThreadSafeClientConnManager cm = new ThreadSafeClientConnManager(httpParams, registry);			
 			client = new DefaultHttpClient(cm, httpParams);

@@ -120,7 +120,7 @@ public class API {
 	{
 		String url = buildUrl("/user/chuzzs", "");
 
-		aq.ajax(url, JSONArray.class, APIWrapper.createForArray(handler, callback));
+		aq.ajax(url, JSONArray.class, -1, APIWrapper.createForArray(handler, callback));
 	}
 	
 	/**
@@ -258,6 +258,7 @@ class APIWrapper<T> extends AjaxCallback<T>
 		{
 			Log.e("yc_result", "Network/api error : err. " + status.getCode());
 			handler.error(status.getMessage());
+			status.invalidate();
 		}
 		
 		//Check for errors while using API
@@ -268,10 +269,12 @@ class APIWrapper<T> extends AjaxCallback<T>
 			
 			try
 			{
+				//Will throw exception if key does not exist.
 				String error = ob.getString("error");
 				handler.error(error);
 				Log.e("yc_result", "Error: " + error + ". Handler: " + handler.toString() + ". Callback: " + callback);
 				json = null;
+				status.invalidate();
 			} catch (JSONException e) { }
 		}
 		

@@ -42,6 +42,20 @@ public class HomeActivity extends BaseActivity {
 		load();
 	}
 	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		if(!isLoading)
+		{
+			API.updateActivity(this);
+			Log.v("yc", "Refreshing chuzz list");
+			load();
+			API.getInstance().getChuzzs(this, "onChuzzsLoaded");
+		}
+	}
+	
 	/**
 	 * Create new chuzz
 	 * @param v
@@ -62,6 +76,12 @@ public class HomeActivity extends BaseActivity {
 		inflater.inflate(R.menu.menu_home, menu);*/
 		
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	public void onChuzzsLoaded2(String url, JSONArray json, AjaxStatus status)
+	{
+		Log.i("yc", "WTF3");
+		onChuzzsLoaded(url, json, status);
 	}
 	
 	/**

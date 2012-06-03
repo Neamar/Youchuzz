@@ -28,6 +28,7 @@ public class BaseActivity extends Activity {
 	protected Facebook facebook = new Facebook("297600333614254");
 	protected AQuery aq;
 	protected ProgressDialog progressDialog = null;
+	protected Boolean isLoading = false;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -60,11 +61,13 @@ public class BaseActivity extends Activity {
 	
 	protected void load()
 	{
+		isLoading = true;
 		setProgressBarIndeterminateVisibility(true);
 	}
 	
 	protected void endLoad()
 	{
+		isLoading = false;
 		setProgressBarIndeterminateVisibility(false);
 	}
 	
@@ -74,6 +77,7 @@ public class BaseActivity extends Activity {
 	 */
 	protected void modalLoad(String title, String msg)
 	{
+		isLoading = true;
 		try
 		{
 			progressDialog = ProgressDialog.show(BaseActivity.this, title, msg, true);
@@ -87,6 +91,7 @@ public class BaseActivity extends Activity {
 	 */
 	protected void endModalLoad()
 	{
+		isLoading = false;
 		try
 		{
 			if(progressDialog != null)
