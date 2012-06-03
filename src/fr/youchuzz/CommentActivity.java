@@ -1,33 +1,17 @@
 package fr.youchuzz;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxStatus;
 
 import fr.youchuzz.core.API;
-import fr.youchuzz.core.Chuzz;
 
 /**
  * Display comments for a chuzz.
@@ -57,7 +41,42 @@ public class CommentActivity extends BaseActivity {
 			setTitle(getIntent().getStringExtra("title"));
 			aq.id(R.id.comment_detail).text(getIntent().getStringExtra("details"));
 			aq.id(R.id.comment_chuzz).clicked(this, "onChuzzClicked");
+			
+			loadComments();
 		}
+	}
+	
+	public void loadComments()
+	{
+		//Load HTML from template file assets/comment.html
+		String html = "";
+		try
+		{
+			InputStream fin = getAssets().open("comments.html");
+			byte[] buffer = new byte[fin.available()];
+			fin.read(buffer);
+			fin.close();
+
+			html = new String(buffer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		WebView webView = ((WebView) findViewById(R.id.comment_webview));
+
+
+		//Replace placeholder
+		html = html.replace("{{id}}", Integer.toString(getIntent().getIntExtra("id", -1)));
+
+		Log.i("yc", html);
+		//TODO
+		//webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+
+		// Load datas
+		WebSettings settings = webView.getSettings();
+		settings.setJavaScriptEnabled(true);
+		
+		webView.loadDataWithBaseURL("http://youchuzz.com", html, "text/html", "UTF-8", null);
 	}
 	
 	public void onChuzzClicked(View v)
