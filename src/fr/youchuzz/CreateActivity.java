@@ -134,7 +134,8 @@ public class CreateActivity extends BaseActivity {
 		switch (item.getItemId()) {
 			case R.id.menu_create_source_pick_gallery:
 				//Pick from gallery (or other file browser)
-				Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+				Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+						  android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 				galleryIntent.setType("image/*");
 				startActivityForResult(Intent.createChooser(galleryIntent, getString(R.string.create_pick_image)), REQUEST_IMAGE);
 
@@ -169,7 +170,13 @@ public class CreateActivity extends BaseActivity {
 			if (requestCode == REQUEST_IMAGE) {
 				//GET IMAGE FROM GALLERY / FILE BROWSER
 				selectedUri = data.getData();
-				content = new File(getPath(selectedUri));
+				try
+				{
+					content = new File(getPath(selectedUri));
+				} catch(Exception e)
+				{
+					content = null;
+				}
 			}
 			else if(requestCode == REQUEST_PHOTO)
 			{
@@ -179,8 +186,9 @@ public class CreateActivity extends BaseActivity {
 			
 			if(content == null)
 			{
-				error("Unable to load this content. Please use another source.");
+				error(getString(R.string.create_error_content));
 			}
+			else
 			{
 				if(content.length() > 100000)
 					Toast.makeText(this, getString(R.string.create_toast_uploading), Toast.LENGTH_SHORT).show();
@@ -230,12 +238,12 @@ public class CreateActivity extends BaseActivity {
 		String title = aq.id(R.id.create_title).getText().toString();
 		if(title.equals(""))
 		{
-			error("You need to add a title for your chuzz.");
+			error(getString(R.string.create_error_notitle));
 			aq.id(R.id.create_title).getView().requestFocus();
 		}
 		else if(!nextActivityIntent.hasExtra("content1") || !nextActivityIntent.hasExtra("content2"))
 		{
-			error("You need to select two contents before saving this chuzz.");
+			error(getString(R.string.create_error_twocontents));
 		}
 		else
 		{

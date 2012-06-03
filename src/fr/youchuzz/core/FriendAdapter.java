@@ -34,7 +34,7 @@ public class FriendAdapter extends ArrayAdapter<Friend> {
 			AQuery aq = new AQuery(v);
 			aq.id(R.id.friends_item_friend_name).text(f.getName());
 			aq.id(R.id.friends_item_friend_check).checked(f.selected);
-			//TODO: test again
+
 			if(!aq.shouldDelay(position, convertView, parent, f.imageUrl))
 				aq.id(R.id.friends_item_friend_image).image(f.imageUrl, true, true, 0, R.drawable.friend_placeholder);
 		}

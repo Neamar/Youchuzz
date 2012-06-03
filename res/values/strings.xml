@@ -32,6 +32,9 @@
 	<string name="create_ui_content_description">Click to select content</string>
 	<string name="create_ui_content_preview">Content preview</string>
 	<string name="create_toast_uploading">Uploading content, this may take some time.</string>
+	<string name="create_error_content">Unable to load this content. Please use another source.</string>
+	<string name="create_error_notitle">You need to add a title for your chuzz.</string>
+	<string name="create_error_twocontents">You need to select two contents before saving this chuzz.</string>
 	
 	<!-- Activity Friend -->
 	<string name="friends_title">Select your friends</string>
@@ -48,6 +51,7 @@
 	<string name="chuzz_ui_details">{{ details }}</string>
 	<string name="chuzz_ui_item_details">{{ nbVotes }}</string>
 	<string name="chuzz_ui_item_content">Chuzz content</string>
+	<string name="chuzz_error_badlaunch">Loading activity without picking any chuzz.</string>
 	
 	<!-- Activity Comment -->
 	<string name="comment_ui_chuzz">← Chuzz</string>

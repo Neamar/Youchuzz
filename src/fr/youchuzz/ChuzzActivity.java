@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import fr.youchuzz.core.Chuzz;
  */
 public class ChuzzActivity extends BaseActivity {
 	public int[] CONTENTS_ID = new int[]{R.id.chuzz_content1, R.id.chuzz_content2};
+	public int chuzzId = -1;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -40,7 +42,7 @@ public class ChuzzActivity extends BaseActivity {
 		
 		if(getIntent() == null)
 		{
-			error("Loading activity without picking any chuzz.");
+			error(getString(R.string.chuzz_error_badlaunch));
 			finish();
 		}
 		else
@@ -48,9 +50,8 @@ public class ChuzzActivity extends BaseActivity {
 			setTitle(getIntent().getStringExtra("title"));
 			updateOrientation(getResources().getConfiguration());
 			
-			API.getInstance().getChuzz(this, "onChuzzLoaded", getIntent().getIntExtra("id", -1));
-			
-			load();
+			chuzzId = getIntent().getIntExtra("id", -1);
+			refreshUi();
 			
 			for(int i = 0; i < CONTENTS_ID.length; i++)
 			{
@@ -59,6 +60,23 @@ public class ChuzzActivity extends BaseActivity {
 			
 			aq.id(R.id.chuzz_comments).clicked(this, "onCommentsClicked");
 		}
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		if(!isLoading)
+			refreshUi();
+	}
+	
+	public void refreshUi()
+	{
+		API.updateActivity(this);
+		Log.v("yc", "Refreshing chuzz.");
+		load();
+		API.getInstance().getChuzz(this, "onChuzzLoaded", chuzzId);
 	}
 	
 	/**
@@ -142,7 +160,7 @@ public class ChuzzActivity extends BaseActivity {
 	{
 		Intent commentIntent = new Intent(this, CommentActivity.class);
 		//Copy initial intent
-		commentIntent.putExtra("id", getIntent().getIntExtra("id", -1));
+		commentIntent.putExtra("id", chuzzId);
 		commentIntent.putExtra("title", getIntent().getStringExtra("title"));
 		//Add details
 		commentIntent.putExtra("details", aq.id(R.id.chuzz_details).getText());
