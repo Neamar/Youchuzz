@@ -20,6 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="{{ desc }}" />
+        android:background="#cccccc"
+        android:textColor="#000000"
+        android:padding="5dip"
+        android:text="@string/chuzz_ui_details" />
 
 </RelativeLayout>

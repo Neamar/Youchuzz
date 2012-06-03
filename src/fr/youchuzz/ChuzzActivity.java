@@ -93,6 +93,10 @@ public class ChuzzActivity extends BaseActivity {
 				chuzz.nbVoters = getInt(json, "voters");
 				
 				AQuery localAq = new AQuery(this);
+				
+				int maxVotes = -1;
+				int maxVotesId = 0;
+				
 				for(int i = 0; i < contents.length(); i++)
 				{
 					aq.id(CONTENTS_ID[i]).visible();
@@ -100,12 +104,21 @@ public class ChuzzActivity extends BaseActivity {
 					JSONObject content = contents.getJSONObject(i);
 					String contentUrl = getString(content, "url");
 					int nbVotes = getInt(content, "votes");
+					
+					if(nbVotes > maxVotes)
+					{
+						maxVotes = nbVotes;
+						maxVotesId = i;
+					}
 							
 					localAq.recycle(aq.id(CONTENTS_ID[i]).getView());
 					localAq.id(R.id.chuzz_item_chuzz_content).image(contentUrl, true, true, 0, R.drawable.ic_menu_attachment);
 					localAq.id(R.id.chuzz_item_chuzz_desc).text(Integer.toString(nbVotes) + " vote" + (nbVotes > 1?"s":""));
 					((TextView) localAq.id(R.id.chuzz_item_chuzz_desc).getView()).setShadowLayer(4, 0, 0, Color.BLACK);
 				}
+				
+				localAq.recycle(aq.id(CONTENTS_ID[maxVotesId]).getView());
+				localAq.id(R.id.chuzz_item_chuzz_desc).backgroundColor(Color.GREEN);
 				
 				aq.id(R.id.chuzz_details).text(chuzz.getDesc());
 			} catch (JSONException e) {
