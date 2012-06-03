@@ -29,7 +29,9 @@
             android:configChanges="keyboardHidden|orientation" >
         </activity>
         <activity android:name=".FriendsActivity" />
-        <activity android:name=".ChuzzActivity" />
+        <activity
+            android:name=".ChuzzActivity"
+            android:configChanges="keyboardHidden|orientation" />
         <activity android:name=".CommentActivity" />
     </application>
 

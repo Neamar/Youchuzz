@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -115,9 +114,6 @@ public class HomeActivity extends BaseActivity {
 		Intent chuzzIntent = new Intent(this, ChuzzActivity.class);
 		chuzzIntent.putExtra("id", selectedChuzz.id);
 		chuzzIntent.putExtra("title", selectedChuzz.title);
-		error(selectedChuzz.title);
 		startActivity(chuzzIntent);
-		
-		error("GOO");
 	}
 }

@@ -24,13 +24,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Send two pictures to choose between, and ask your friends for their opinion."
+            android:text="@string/home_ui_description"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/home_ui_description"
             android:src="@drawable/presentation" />
     </LinearLayout>
 

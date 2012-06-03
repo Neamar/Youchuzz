@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/RelativeLayout1"
     android:layout_width="wrap_content"
+    android:layout_weight="1"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical" >
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/chuzz_ui_item_content"
         android:src="@drawable/ic_menu_attachment" />
 
     <TextView
@@ -23,6 +25,6 @@
         android:background="#cccccc"
         android:textColor="#000000"
         android:padding="5dip"
-        android:text="@string/chuzz_ui_details" />
+        android:text="@string/chuzz_ui_item_details" />
 
 </RelativeLayout>

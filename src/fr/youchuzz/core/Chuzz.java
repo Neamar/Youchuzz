@@ -1,8 +1,9 @@
 package fr.youchuzz.core;
 
-import java.util.ArrayList;
-
 import org.json.JSONObject;
+
+import android.content.Context;
+import fr.youchuzz.R;
 
 /**
  * Class handling data for a chuzz
@@ -26,8 +27,13 @@ public class Chuzz {
 	 */
 	public JSONObject json;
 	
-	public String getDesc()
+	public String getDesc(Context c)
 	{
-		return nbVoters + " vote" + (nbVoters>1?"s":"") + ", créé le " + creationDate;
+		String template = c.getString(R.string.home_ui_item_desc);
+		template = template
+				.replace("{{vs}}", nbVoters>1?"s":"")
+				.replace("{{v}}", Integer.toString(nbVoters))
+				.replace("{{d}}", creationDate);
+		return template;
 	}
 }

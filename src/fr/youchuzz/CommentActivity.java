@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 
 import com.androidquery.AQuery;
@@ -68,9 +68,7 @@ public class CommentActivity extends BaseActivity {
 		//Replace placeholder
 		html = html.replace("{{id}}", Integer.toString(getIntent().getIntExtra("id", -1)));
 
-		Log.i("yc", html);
-		//TODO
-		//webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+		webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
 
 		// Load datas
 		WebSettings settings = webView.getSettings();

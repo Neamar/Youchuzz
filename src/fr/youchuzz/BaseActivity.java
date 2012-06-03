@@ -69,9 +69,8 @@ public class BaseActivity extends Activity {
 	}
 	
 	/**
-	 * Display a spinner while loading content.
+	 * Display a modal spinner while loading content.
 	 * 
-	 * @deprecated use load
 	 */
 	protected void modalLoad(String title, String msg)
 	{
@@ -83,9 +82,8 @@ public class BaseActivity extends Activity {
 	}
 	
 	/**
-	 * Hide spinned displayed using modalLoad
+	 * Hide modal spinner displayed using modalLoad
 	 * 
-	 * @deprecated use endLoad
 	 */
 	protected void endModalLoad()
 	{

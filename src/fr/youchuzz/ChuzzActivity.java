@@ -1,24 +1,13 @@
 package fr.youchuzz;
 
-import java.io.File;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,6 +46,7 @@ public class ChuzzActivity extends BaseActivity {
 		else
 		{
 			setTitle(getIntent().getStringExtra("title"));
+			updateOrientation(getResources().getConfiguration());
 			
 			API.getInstance().getChuzz(this, "onChuzzLoaded", getIntent().getIntExtra("id", -1));
 			
@@ -69,6 +59,26 @@ public class ChuzzActivity extends BaseActivity {
 			
 			aq.id(R.id.chuzz_comments).clicked(this, "onCommentsClicked");
 		}
+	}
+	
+	/**
+	 * Handle rotation to display properly the layout.
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		
+		updateOrientation(newConfig);
+	}
+	
+	/**
+	 * Update the UI according to current orientation
+	 * @param config
+	 */
+	protected void updateOrientation(Configuration config)
+	{
+		((LinearLayout) findViewById(R.id.chuzz_content_layout))
+		.setOrientation(config.orientation==Configuration.ORIENTATION_PORTRAIT ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
 	}
 	
 	public void onChuzzLoaded(String url, JSONObject json, AjaxStatus status) {
@@ -118,7 +128,7 @@ public class ChuzzActivity extends BaseActivity {
 				localAq.recycle(aq.id(CONTENTS_ID[maxVotesId]).getView());
 				localAq.id(R.id.chuzz_item_chuzz_desc).backgroundColor(Color.GREEN);
 				
-				aq.id(R.id.chuzz_details).text(chuzz.getDesc());
+				aq.id(R.id.chuzz_details).text(chuzz.getDesc(this));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
