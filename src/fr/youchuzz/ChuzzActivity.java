@@ -42,26 +42,23 @@ public class ChuzzActivity extends BaseActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		//TODO : recycle activity
-		API.init(this);
-		API.getInstance().setSessionId("1338712110b26a3b40f2f02f4932b88569c6fa1ac20389680d");
+		API.updateActivity(this);
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_chuzz);
 		
 		aq = new AQuery(this);
 		
-		/*if(getIntent() == null)
+		if(getIntent() == null)
 		{
 			error("Loading activity without picking any chuzz.");
 			finish();
 		}
 		else
-		{*/
-			//setTitle(getIntent().getStringExtra("title"));
-			setTitle("Le nom de mon chuzz");
+		{
+			setTitle(getIntent().getStringExtra("title"));
 			
-			API.getInstance().getChuzz(this, "onChuzzLoaded", 4);
+			API.getInstance().getChuzz(this, "onChuzzLoaded", getIntent().getIntExtra("id", -1));
 			
 			load();
 			
@@ -71,14 +68,15 @@ public class ChuzzActivity extends BaseActivity {
 			}
 			
 			aq.id(R.id.chuzz_comments).clicked(this, "onCommentsClicked");
-		//}
+		}
 	}
 	
 	public void onChuzzLoaded(String url, JSONObject json, AjaxStatus status) {
 		endLoad();
 		if(json == null)
 		{
-			error(":( TODO");
+			error("Unable to load chuzz.");
+			finish();
 		}
 		else
 		{
@@ -134,7 +132,6 @@ public class ChuzzActivity extends BaseActivity {
 		commentIntent.putExtra("id", getIntent().getIntExtra("id", -1));
 		commentIntent.putExtra("title", getIntent().getStringExtra("title"));
 		//Add details
-		
 		commentIntent.putExtra("details", aq.id(R.id.chuzz_details).getText());
 		
 		startActivity(commentIntent);
